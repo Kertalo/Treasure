@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2e39b986-9ced-4e81-9458-15cab3c6b0b1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Treasure.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Treasure.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
+    <list default="true" id="2e39b986-9ced-4e81-9458-15cab3c6b0b1" name="Changes" comment="add gems">
+      <change afterPath="$PROJECT_DIR$/app/assets/stylesheets/game.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/controllers/game_controller.rb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/views/game/main.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Ruby File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -25,6 +34,10 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2I59XgWkW9qzDDPGmjH0VqYog60" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -34,6 +47,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "nodejs_package_manager_path": "npm",
     "ruby.rails.projectView.checked": "true"
   }
 }]]></component>
@@ -130,7 +144,17 @@
       <option name="presentableId" value="Default" />
       <updated>1669460619812</updated>
       <workItem from="1669460621983" duration="1481000" />
+      <workItem from="1669472553781" duration="200000" />
+      <workItem from="1669479455074" duration="2004000" />
     </task>
+    <task id="LOCAL-00001" summary="add gems">
+      <created>1669472726035</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1669472726035</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,7 +171,11 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add gems" />
+    <option name="LAST_COMMIT_MESSAGE" value="add gems" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Treasure@Development__Treasure.rcov" NAME="Development: Treasure Coverage Results" MODIFIED="1669460728784" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="Treasure" />
+    <SUITE FILE_PATH="coverage/Treasure@Development__Treasure.rcov" NAME="Development: Treasure Coverage Results" MODIFIED="1669481364415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="Treasure" />
   </component>
 </project>
