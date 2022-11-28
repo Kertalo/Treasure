@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2e39b986-9ced-4e81-9458-15cab3c6b0b1" name="Changes" comment="add gems">
-      <change afterPath="$PROJECT_DIR$/app/assets/stylesheets/game.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/controllers/game_controller.rb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/game/main.html.erb" afterDir="false" />
+    <list default="true" id="2e39b986-9ced-4e81-9458-15cab3c6b0b1" name="Changes" comment="add main page">
+      <change afterPath="$PROJECT_DIR$/app/views/game/change_labyrinth.html.erb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/views/game/loading.html.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/game_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/game_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/game/main.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/game/main.html.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,6 +18,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Ruby File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -47,10 +49,16 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Programs/GitHub/Treasure/app/views/game",
     "nodejs_package_manager_path": "npm",
     "ruby.rails.projectView.checked": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Programs\GitHub\Treasure\app\views\game" />
+    </key>
+  </component>
   <component name="RunManager" selected="Rails.Development: Treasure">
     <configuration name="Development: Treasure" type="RailsRunConfigurationType" factoryName="Rails">
       <module name="Treasure" />
@@ -145,7 +153,12 @@
       <updated>1669460619812</updated>
       <workItem from="1669460621983" duration="1481000" />
       <workItem from="1669472553781" duration="200000" />
-      <workItem from="1669479455074" duration="2004000" />
+      <workItem from="1669479455074" duration="2176000" />
+      <workItem from="1669491209483" duration="3296000" />
+      <workItem from="1669502272740" duration="7000" />
+      <workItem from="1669566523295" duration="60000" />
+      <workItem from="1669656787323" duration="2054000" />
+      <workItem from="1669660248615" duration="4062000" />
     </task>
     <task id="LOCAL-00001" summary="add gems">
       <created>1669472726035</created>
@@ -154,7 +167,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669472726035</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add main page">
+      <created>1669481637667</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1669481637667</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,9 +193,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add gems" />
-    <option name="LAST_COMMIT_MESSAGE" value="add gems" />
+    <MESSAGE value="add main page" />
+    <option name="LAST_COMMIT_MESSAGE" value="add main page" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Treasure@Development__Treasure.rcov" NAME="Development: Treasure Coverage Results" MODIFIED="1669481364415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="Treasure" />
+    <SUITE FILE_PATH="coverage/Treasure@Development__Treasure.rcov" NAME="Development: Treasure Coverage Results" MODIFIED="1669662829167" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="Treasure" />
   </component>
 </project>
