@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2e39b986-9ced-4e81-9458-15cab3c6b0b1" name="Changes" comment="add main page">
-      <change afterPath="$PROJECT_DIR$/app/views/game/change_labyrinth.html.erb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/game/loading.html.erb" afterDir="false" />
+    <list default="true" id="2e39b986-9ced-4e81-9458-15cab3c6b0b1" name="Changes" comment="add two buttons and two pages">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/game_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/game_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/game/main.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/game/main.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/assets/config/manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/config/manifest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.erb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,16 +42,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Programs/GitHub/Treasure/app/views/game",
-    "nodejs_package_manager_path": "npm",
-    "ruby.rails.projectView.checked": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Programs/GitHub/Treasure/app/views/game&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ruby.rails.projectView.checked&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.ruby.settings.RubyActiveModuleSdkConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Programs\GitHub\Treasure\app\views\game" />
@@ -158,7 +157,12 @@
       <workItem from="1669502272740" duration="7000" />
       <workItem from="1669566523295" duration="60000" />
       <workItem from="1669656787323" duration="2054000" />
-      <workItem from="1669660248615" duration="4062000" />
+      <workItem from="1669660248615" duration="4887000" />
+      <workItem from="1669739876094" duration="688000" />
+      <workItem from="1669744850713" duration="453000" />
+      <workItem from="1669745316496" duration="1084000" />
+      <workItem from="1669822675564" duration="160000" />
+      <workItem from="1669957359797" duration="484000" />
     </task>
     <task id="LOCAL-00001" summary="add gems">
       <created>1669472726035</created>
@@ -174,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669481637667</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add two buttons and two pages">
+      <created>1669665455712</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1669665455712</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -194,9 +205,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add gems" />
     <MESSAGE value="add main page" />
-    <option name="LAST_COMMIT_MESSAGE" value="add main page" />
+    <MESSAGE value="add two buttons and two pages" />
+    <option name="LAST_COMMIT_MESSAGE" value="add two buttons and two pages" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Treasure@Development__Treasure.rcov" NAME="Development: Treasure Coverage Results" MODIFIED="1669662829167" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="Treasure" />
+    <SUITE FILE_PATH="coverage/Treasure@Development__Treasure.rcov" NAME="Development: Treasure Coverage Results" MODIFIED="1669957586213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="Treasure" />
   </component>
 </project>
