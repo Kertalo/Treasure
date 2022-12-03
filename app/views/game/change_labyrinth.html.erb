@@ -1,3 +1,5 @@
 <h3>Change labyrinth</h3>
-<canvas id="myCanvas" width="480" height="480"></canvas>
+<% @width = "512" %>
+<% @height = "512" %>
+<canvas id="myCanvas" width=<%= @width %> height=<%= @height %>></canvas>
 <div data-controller="edit"></div>

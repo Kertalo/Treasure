@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2e39b986-9ced-4e81-9458-15cab3c6b0b1" name="Changes" comment="add folder javascripts">
-      <change afterPath="$PROJECT_DIR$/app/javascript/controllers/edit_controller.js" afterDir="false" />
+    <list default="true" id="2e39b986-9ced-4e81-9458-15cab3c6b0b1" name="Changes" comment="add labyrinth in change_labyrinth">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/assets/stylesheets/game.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/stylesheets/game.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/javascript/controllers/edit_controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/controllers/edit_controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/game/change_labyrinth.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/game/change_labyrinth.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/game/loading.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/game/loading.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/game/main.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/game/main.html.erb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,17 +45,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Programs/GitHub/Treasure/app/javascript/controllers",
-    "nodejs_package_manager_path": "npm",
-    "ruby.rails.projectView.checked": "true",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.ruby.settings.RubyActiveModuleSdkConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Programs/GitHub/Treasure/app/javascript/controllers&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ruby.rails.projectView.checked&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.ruby.settings.RubyActiveModuleSdkConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Programs\GitHub\Treasure\app\javascript\controllers" />
@@ -165,7 +169,11 @@
       <workItem from="1669822675564" duration="160000" />
       <workItem from="1669957359797" duration="1139000" />
       <workItem from="1669966493181" duration="2151000" />
-      <workItem from="1669969592665" duration="6107000" />
+      <workItem from="1669969592665" duration="6443000" />
+      <workItem from="1669990843400" duration="3245000" />
+      <workItem from="1669994966801" duration="2000" />
+      <workItem from="1670078637193" duration="3805000" />
+      <workItem from="1670087673341" duration="8526000" />
     </task>
     <task id="LOCAL-00001" summary="add gems">
       <created>1669472726035</created>
@@ -195,7 +203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669957909746</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="add labyrinth in change_labyrinth">
+      <created>1669976750489</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1669976750489</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,9 +232,10 @@
     <MESSAGE value="add main page" />
     <MESSAGE value="add two buttons and two pages" />
     <MESSAGE value="add folder javascripts" />
-    <option name="LAST_COMMIT_MESSAGE" value="add folder javascripts" />
+    <MESSAGE value="add labyrinth in change_labyrinth" />
+    <option name="LAST_COMMIT_MESSAGE" value="add labyrinth in change_labyrinth" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Treasure@Development__Treasure.rcov" NAME="Development: Treasure Coverage Results" MODIFIED="1669970538300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="Treasure" />
+    <SUITE FILE_PATH="coverage/Treasure@Development__Treasure.rcov" NAME="Development: Treasure Coverage Results" MODIFIED="1670089331863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="Treasure" />
   </component>
 </project>
