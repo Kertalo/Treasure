@@ -15,7 +15,7 @@ export default class extends Controller {
     let color_side = "#6e6e6e";
     let color_wall_exist = "#6e6e6e";
     let color_wall_clear = "#282828";
-    let color_wall_exist_move = "rgba(90,90,90,0.9)";
+    let color_wall_exist_move = "#5a5a5a";
     let color_wall_clear_move = "#3c3c3c";
 
     let field = [];
@@ -158,20 +158,5 @@ export default class extends Controller {
     canvas.onmousedown = function(event) { mouse(event, true) };
 
     create();
-
-    /*function draw()
-    {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.beginPath();
-      document.addEventListener("mousedown", (event)=>(x=0, y=0));
-      ctx.arc(x, y, 10, 0, Math.PI * 2);
-      ctx.fillStyle = "#0000ff";
-      ctx.fill();
-      ctx.closePath();
-      x += 1;
-      y += 1;
-    }*/
-
-    //setInterval(draw, 10);
   }
 }
