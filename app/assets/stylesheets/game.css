@@ -16,12 +16,12 @@
 }
 
 body {
-    background: #1A1A1D;
+    background: #222629;
     color: #fff;
 }
 
 canvas {
-    background: #6F2232;
+    background: #222629;
     display: block;
     margin: 0 auto;
 }

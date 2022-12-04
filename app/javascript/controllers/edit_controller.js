@@ -12,9 +12,9 @@ export default class extends Controller {
 
     let cell = (width - 2 * side + wall) / 8 - wall;
 
-    let color_side = "#C3073F";
-    let color_wall_exist = "#C3073F";
-    let color_wall_clear = "#950740";
+    let color_side = "#6B6E70";
+    let color_wall_exist = "#6B6E70";
+    let color_wall_clear = "#262a2e";
 
     let field = [];
 
