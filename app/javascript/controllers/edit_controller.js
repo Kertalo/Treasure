@@ -11,7 +11,34 @@ export default class extends Controller {
     let side = 20;
 
     let cell = (width - 2 * side + wall) / 8 - wall;
+
+    let color_side = "#C3073F";
+    let color_wall_exist = "#C3073F";
+    let color_wall_clear = "#950740";
+
     let field = [];
+
+    function create_wall(is_horizontal, is_exist, i)
+    {
+      ctx.beginPath();
+      if (is_horizontal)
+        ctx.rect(side - ((is_exist) ? wall : 0) + (i % 8) * (cell + wall),
+            side - wall + Math.floor(i / 8) * (cell + wall),
+            cell + ((is_exist) ? 2 * wall : 0), wall);
+      else
+        ctx.rect(side - wall + Math.floor(i / 8) * (cell + wall),
+            side - ((is_exist) ? wall : 0) + (i % 8) * (cell + wall),
+            wall, cell + ((is_exist) ? 2 * wall : 0));
+
+      if (is_exist)
+        ctx.fillStyle = color_wall_exist;
+      else
+        ctx.fillStyle = color_wall_clear;
+
+      ctx.fill();
+      ctx.closePath();
+    }
+
     function create()
     {
       if (localStorage.getItem('field') == null)
@@ -22,6 +49,23 @@ export default class extends Controller {
         localStorage.setItem('field', JSON.stringify(field));
       }
 
+      field = JSON.parse(localStorage.getItem('field'));
+
+      //horizontal walls
+      for(let i = 8; i < 64; i++)
+      {
+        if (field[i] % 2 === 1)
+          create_wall(true, true, i);
+        else
+          create_wall(true, false, i);
+      }
+
+      //vertical walls
+      for(let i = 8; i < 64; i++)
+        if (field[Math.floor(i / 8) + (i % 8) * 8] > 7)
+          create_wall(false, true, i);
+        else
+          create_wall(false, false, i);
 
       ctx.beginPath();
 
@@ -30,21 +74,7 @@ export default class extends Controller {
       ctx.rect(width-side, 0, side, height);
       ctx.rect(0, height-side, width, side);
 
-      field = JSON.parse(localStorage.getItem('field'));
-
-      //horizontal walls
-      for(let i = 8; i < 64; i++)
-        if (field[i] % 2 === 1)
-          ctx.rect(side - wall + (i % 8) * (cell + wall), side - wall + Math.floor(i / 8) * (cell + wall),
-              cell + 2 * wall, wall);
-
-      //vertical walls
-      for(let i = 8; i < 64; i++)
-        if (field[Math.floor(i / 8) + (i % 8) * 8] > 7)
-          ctx.rect(side - wall + Math.floor(i / 8) * (cell + wall), side - wall + (i % 8) * (cell + wall),
-              wall, cell + 2 * wall);
-
-      ctx.fillStyle = "#838383";
+      ctx.fillStyle = color_side;
       ctx.fill();
       ctx.closePath();
     }

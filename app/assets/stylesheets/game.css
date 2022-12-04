@@ -15,6 +15,17 @@
     margin-top: 1em;
 }
 
+body {
+    background: #1A1A1D;
+    color: #fff;
+}
+
+canvas {
+    background: #6F2232;
+    display: block;
+    margin: 0 auto;
+}
+
 /*
 button {
     background-color: #000000;
@@ -33,10 +44,4 @@ button {
     justify-content: space-between;
     width: 300px;
     margin-top: 5px;
-}
-
-canvas {
-    background: #1c1c1c;
-    display: block;
-    margin: 0 auto;
 }
