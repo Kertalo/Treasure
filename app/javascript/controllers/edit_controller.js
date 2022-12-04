@@ -12,28 +12,27 @@ export default class extends Controller {
 
     let cell = (width - 2 * side + wall) / 8 - wall;
 
-    let color_side = "#6B6E70";
-    let color_wall_exist = "#6B6E70";
-    let color_wall_clear = "#262a2e";
+    let color_side = "#6e6e6e";
+    let color_wall_exist = "#6e6e6e";
+    let color_wall_clear = "#282828";
+    let color_wall_exist_move = "rgba(90,90,90,0.9)";
+    let color_wall_clear_move = "#3c3c3c";
 
     let field = [];
 
-    function create_wall(is_horizontal, is_exist, i)
+    function create_wall(is_horizontal, is_exist, i, color)
     {
       ctx.beginPath();
       if (is_horizontal)
         ctx.rect(side - ((is_exist) ? wall : 0) + (i % 8) * (cell + wall),
-            side - wall + Math.floor(i / 8) * (cell + wall),
+            side + cell + Math.floor(i / 8) * (cell + wall),
             cell + ((is_exist) ? 2 * wall : 0), wall);
       else
-        ctx.rect(side - wall + Math.floor(i / 8) * (cell + wall),
+        ctx.rect(side + cell + Math.floor(i / 8) * (cell + wall),
             side - ((is_exist) ? wall : 0) + (i % 8) * (cell + wall),
             wall, cell + ((is_exist) ? 2 * wall : 0));
 
-      if (is_exist)
-        ctx.fillStyle = color_wall_exist;
-      else
-        ctx.fillStyle = color_wall_clear;
+      ctx.fillStyle = color;
 
       ctx.fill();
       ctx.closePath();
@@ -41,9 +40,12 @@ export default class extends Controller {
 
     function create()
     {
-      if (localStorage.getItem('field') == null)
+      ctx.beginPath();
+      ctx.clearRect(0, 0, width, height);
+      ctx.closePath();
+
+      if (localStorage.getItem('field') === null)
       {
-        alert("hi");
         for(let i = 0; i < 64; i++)
           field[i] = 0;
         localStorage.setItem('field', JSON.stringify(field));
@@ -52,20 +54,18 @@ export default class extends Controller {
       field = JSON.parse(localStorage.getItem('field'));
 
       //horizontal walls
-      for(let i = 8; i < 64; i++)
-      {
-        if (field[i] % 2 === 1)
-          create_wall(true, true, i);
+      for(let i = 0; i < 56; i++)
+        if ((field[i] & 4) === 4)
+          create_wall(true, true, i, color_wall_exist);
         else
-          create_wall(true, false, i);
-      }
+          create_wall(true, false, i, color_wall_clear);
 
       //vertical walls
-      for(let i = 8; i < 64; i++)
-        if (field[Math.floor(i / 8) + (i % 8) * 8] > 7)
-          create_wall(false, true, i);
+      for(let i = 0; i < 56; i++)
+        if ((field[Math.floor(i / 8) + (i % 8) * 8] & 2) === 2)
+          create_wall(false, true, i, color_wall_exist);
         else
-          create_wall(false, false, i);
+          create_wall(false, false, i, color_wall_clear);
 
       ctx.beginPath();
 
@@ -86,13 +86,17 @@ export default class extends Controller {
         y: y - bbox.top * (canvas.height / bbox.height) };
     }
 
-    canvas.onmousedown = function(e)
+    function mouse(event, click)
     {
-      let mouse = windowToCanvas(e.clientX, e.clientY);
+      let mouse = windowToCanvas(event.clientX, event.clientY);
 
       if (mouse.x <= side || width - mouse.x <= side ||
           mouse.y <= side || height - mouse.y <= side)
+      {
+        if (!click)
+          create();
         return;
+      }
 
       let position = -1;
 
@@ -110,50 +114,48 @@ export default class extends Controller {
           break;
         }
 
-      if (position < 0 || position > 63)
-        return;
-
       let dir = 0;
 
       //x
-      if (mouse.x < side + (position % 8) * (cell + wall))
-        dir += 8;
-      else if (mouse.x > side + (position % 8) * (cell + wall) + cell)
+      if (mouse.x > side + (position % 8) * (cell + wall) + cell)
         dir += 2;
 
       //y
-      if (mouse.y < side + Math.floor(position / 8) * (cell + wall))
-        dir += 1;
-      else if (mouse.y > side + Math.floor(position / 8) * (cell + wall) + cell)
+      if (mouse.y > side + Math.floor(position / 8) * (cell + wall) + cell)
         dir += 4;
 
 
-      if (dir === 1 || dir === 2 || dir === 4 || dir === 8)
+      if (dir === 2 || dir === 4)
       {
-        //alert(field[position] ^ dir);
-        field[position] ^= dir;
-        if (dir === 1)
-          field[position - 8] ^= 4;
-        else if (dir === 2)
-          field[position + 1] ^= 8;
-        else if (dir === 4)
-          field[position + 8] ^= 1;
-        else if (dir === 8)
-          field[position - 1] ^= 2;
-
-        localStorage.setItem('field', JSON.stringify(field));
-        ctx.beginPath();
-        ctx.clearRect(0, 0, width, height);
+        if (click)
+        {
+          field[position] ^= dir;
+          if (dir === 2)
+            field[position + 1] ^= 8;
+          else if (dir === 4)
+            field[position + 8] ^= 1;
+          localStorage.setItem('field', JSON.stringify(field));
+        }
         create();
-        ctx.closePath();
+        if (dir === 2)
+        {
+          let color = ((field[position] & 2) === 2 ? color_wall_exist_move : color_wall_clear_move);
+          create_wall(false, false,
+              Math.floor(position / 8) + (position % 8) * 8, color);
+        }
+        else if (dir === 4)
+        {
+          let color = ((field[position] & 4) === 4 ? color_wall_exist_move : color_wall_clear_move);
+          create_wall(true, false, position, color);
+        }
+
       }
+      else
+        create();
+    }
 
-      //ctx.clearRect(mouse.x, mouse.y, wall*4, wall*4);
-      //ctx.rect(side + (position % 8) * (cell + wall), side + Math.floor(position / 8) * (cell + wall), cell, cell);
-      //ctx.fillStyle = "#0000ff";
-      //ctx.fill();
-
-    };
+    canvas.onmousemove = function(event) { mouse(event, false) };
+    canvas.onmousedown = function(event) { mouse(event, true) };
 
     create();
 
