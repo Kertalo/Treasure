@@ -22,6 +22,7 @@ export default class extends Controller {
         localStorage.setItem('field', JSON.stringify(field));
       }
 
+
       ctx.beginPath();
 
       ctx.rect(0, 0, width, side);
@@ -31,13 +32,17 @@ export default class extends Controller {
 
       field = JSON.parse(localStorage.getItem('field'));
 
+      //horizontal walls
       for(let i = 8; i < 64; i++)
         if (field[i] % 2 === 1)
-          ctx.rect(side - wall / 2 + (i % 8) * (cell + wall), side - wall + Math.floor(i / 8) * (cell + wall),
-              cell + wall, wall);
-      /*for(let i = 1; i < 8; i++)
-        for(let j = 0; j < 8; j++)
-          ctx.rect(side - wall + i * (cell + wall), side - wall / 2 + j * (cell + wall), wall, cell + wall);*/
+          ctx.rect(side - wall + (i % 8) * (cell + wall), side - wall + Math.floor(i / 8) * (cell + wall),
+              cell + 2 * wall, wall);
+
+      //vertical walls
+      for(let i = 8; i < 64; i++)
+        if (field[Math.floor(i / 8) + (i % 8) * 8] > 7)
+          ctx.rect(side - wall + Math.floor(i / 8) * (cell + wall), side - wall + (i % 8) * (cell + wall),
+              wall, cell + 2 * wall);
 
       ctx.fillStyle = "#838383";
       ctx.fill();
@@ -54,14 +59,70 @@ export default class extends Controller {
     canvas.onmousedown = function(e)
     {
       let mouse = windowToCanvas(e.clientX, e.clientY);
-      ctx.beginPath();
 
-      ctx.clearRect(mouse.x, mouse.y, wall*4, wall*4);
-      ctx.rect(mouse.x, mouse.y, wall, wall);
+      if (mouse.x <= side || width - mouse.x <= side ||
+          mouse.y <= side || height - mouse.y <= side)
+        return;
 
-      ctx.fillStyle = "#838383";
-      ctx.fill();
-      ctx.closePath();
+      let position = -1;
+
+      for (let i = 1; i <= 8; i++)
+        if (mouse.x <= side + i * (cell + wall))
+        {
+          position = i - 1;
+          break;
+        }
+
+      for (let i = 1; i <= 8; i++)
+        if (mouse.y <= side + i * (cell + wall))
+        {
+          position += (i - 1) * 8;
+          break;
+        }
+
+      if (position < 0 || position > 63)
+        return;
+
+      let dir = 0;
+
+      //x
+      if (mouse.x < side + (position % 8) * (cell + wall))
+        dir += 8;
+      else if (mouse.x > side + (position % 8) * (cell + wall) + cell)
+        dir += 2;
+
+      //y
+      if (mouse.y < side + Math.floor(position / 8) * (cell + wall))
+        dir += 1;
+      else if (mouse.y > side + Math.floor(position / 8) * (cell + wall) + cell)
+        dir += 4;
+
+
+      if (dir === 1 || dir === 2 || dir === 4 || dir === 8)
+      {
+        //alert(field[position] ^ dir);
+        field[position] ^= dir;
+        if (dir === 1)
+          field[position - 8] ^= 4;
+        else if (dir === 2)
+          field[position + 1] ^= 8;
+        else if (dir === 4)
+          field[position + 8] ^= 1;
+        else if (dir === 8)
+          field[position - 1] ^= 2;
+
+        localStorage.setItem('field', JSON.stringify(field));
+        ctx.beginPath();
+        ctx.clearRect(0, 0, width, height);
+        create();
+        ctx.closePath();
+      }
+
+      //ctx.clearRect(mouse.x, mouse.y, wall*4, wall*4);
+      //ctx.rect(side + (position % 8) * (cell + wall), side + Math.floor(position / 8) * (cell + wall), cell, cell);
+      //ctx.fillStyle = "#0000ff";
+      //ctx.fill();
+
     };
 
     create();
