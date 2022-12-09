@@ -1,10 +1,10 @@
 class GameController < ApplicationController
-  def main
+  def menu
 
   end
 
   def loading
-
+    PlayerStatus.create([{status: "ready"}])
   end
 
   def change_labyrinth
