@@ -124,7 +124,6 @@ export default class extends Controller {
       if (mouse.y > side + Math.floor(position / 8) * (cell + wall) + cell)
         dir += 4;
 
-
       if (dir === 2 || dir === 4)
       {
         if (click)

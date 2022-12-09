@@ -1,0 +1,3 @@
+class PlayerStatusController < ApplicationController
+
+end
