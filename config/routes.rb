@@ -19,4 +19,10 @@ Rails.application.routes.draw do
   put "account", to: "users#update"
   get "account", to: "users#edit"
   delete "account", to: "users#destroy"
+
+  resources :active_sessions, only: [:destroy] do
+    collection do
+      delete "destroy_all"
+    end
+  end
 end
