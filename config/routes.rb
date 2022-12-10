@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/menu', to: 'game#menu'
   get '/loading', to: 'game#loading'
   get '/change_labyrinth', to: 'game#change_labyrinth'
+  get '/main', to: 'game#main'
 
   post "sign_up", to: "users#create"
   get "sign_up", to: "users#new"
