@@ -40,18 +40,15 @@ export default class extends Controller {
 
     function create()
     {
+      if (localStorage.getItem('field') === null)
+      {
+        clear();
+      }
+
       ctx.beginPath();
       ctx.clearRect(0, 0, width, height);
       ctx.closePath();
 
-      if (localStorage.getItem('field') === null)
-      {
-        for(let i = 0; i < 64; i++)
-          field[i] = 0;
-        localStorage.setItem('field', JSON.stringify(field));
-      }
-      let test = "#{@user.email}"
-      console.log(test)
       field = JSON.parse(localStorage.getItem('field'));
 
       //horizontal walls
@@ -154,9 +151,24 @@ export default class extends Controller {
         create();
     }
 
+    function clear()
+    {
+      for(let i = 0; i < 64; i++)
+        field[i] = 0;
+      localStorage.setItem('field', JSON.stringify(field));
+    }
+
     canvas.onmousemove = function(event) { mouse(event, false) };
     canvas.onmousedown = function(event) { mouse(event, true) };
 
     create();
+
+    const button_clear = document.getElementById("clear");
+
+    button_clear.addEventListener('click', (event) =>
+    {
+      clear();
+      create();
+    });
   }
 }

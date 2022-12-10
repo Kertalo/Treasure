@@ -28,13 +28,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_10_122900) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "player_status", force: :cascade do |t|
-    t.string "user_id"
-    t.string "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "player_statuses", force: :cascade do |t|
     t.string "status", null: false
     t.datetime "created_at", null: false

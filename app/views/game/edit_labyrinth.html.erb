@@ -1,8 +1,11 @@
-<h3>Change labyrinth</h3>
+<h3>Edit labyrinth</h3>
 <% @width = "512" %>
 <% @height = "512" %>
-<canvas id="myCanvas" width=<%= @width %> height=<%= @height %>></canvas>
-<div data-controller="edit"></div>
-<%= button_to 'Back', '/menu', method: :get %>
-<%= button_to 'Reset', '/edit_labyrinth', method: :get %>
-<%= button_to 'Save', '/save_labyrinth', method: :get %>
+
+<div data-controller="edit">
+  <canvas id="myCanvas" width=<%= @width %> height=<%= @height %>></canvas>
+  <%= button_to 'Back', '/menu', method: :get %>
+  <%= button_to 'Clear', '/edit_labyrinth', id: "clear", method: :get %>
+  <%= button_to 'Reset', '/edit_labyrinth', method: :get %>
+  <%= button_to 'Save', '/save_labyrinth', method: :get %>
+</div>
