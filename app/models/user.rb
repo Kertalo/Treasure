@@ -6,6 +6,7 @@ class User < ApplicationRecord
   MAILER_FROM_EMAIL = "no-reply@example.com"
 
   has_secure_password
+  has_secure_token :remember_token
 
   attr_accessor :current_password
 

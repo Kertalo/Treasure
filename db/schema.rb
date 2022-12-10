@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_10_113616) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_10_114856) do
   create_table "player_status", force: :cascade do |t|
     t.string "user_id"
     t.string "status"
@@ -25,7 +25,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_10_113616) do
     t.datetime "confirmed_at"
     t.string "password_digest", null: false
     t.string "unconfirmed_email"
+    t.string "remember_token"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
   end
 
 end
