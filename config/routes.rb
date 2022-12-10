@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'static_pages#home'
 
+  get '/menu', to: 'game#menu'
   get '/loading', to: 'game#loading'
   get '/change_labyrinth', to: 'game#change_labyrinth'
 

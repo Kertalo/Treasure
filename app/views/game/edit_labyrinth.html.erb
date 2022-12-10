@@ -3,6 +3,6 @@
 <% @height = "512" %>
 <canvas id="myCanvas" width=<%= @width %> height=<%= @height %>></canvas>
 <div data-controller="edit"></div>
-<%= button_to 'Back', home_path, method: :get %>
+<%= button_to 'Back', '/menu', method: :get %>
 <%= button_to 'Reset', '/edit_labyrinth', method: :get %>
 <%= button_to 'Save', '/save_labyrinth', method: :get %>
