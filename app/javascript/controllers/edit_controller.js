@@ -50,7 +50,8 @@ export default class extends Controller {
           field[i] = 0;
         localStorage.setItem('field', JSON.stringify(field));
       }
-
+      let test = "#{@user.email}"
+      console.log(test)
       field = JSON.parse(localStorage.getItem('field'));
 
       //horizontal walls

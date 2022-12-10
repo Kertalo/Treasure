@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   root 'static_pages#home'
 
-  get '/main', to: 'game#main'
   get '/loading', to: 'game#loading'
   get '/change_labyrinth', to: 'game#change_labyrinth'
 
@@ -27,4 +26,7 @@ Rails.application.routes.draw do
       delete "destroy_all"
     end
   end
+
+  get '/edit_labyrinth', to: 'game#edit_labyrinth'
+  get '/save_labyrinth', to: 'game#save_labyrinth'
 end

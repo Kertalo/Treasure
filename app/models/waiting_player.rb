@@ -1,2 +1,0 @@
-class WaitingPlayer < ApplicationRecord
-end

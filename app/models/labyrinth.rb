@@ -1,0 +1,3 @@
+class Labyrinth < ApplicationRecord
+
+end

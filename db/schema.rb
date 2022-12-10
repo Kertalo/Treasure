@@ -10,21 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_10_122900) do
-  create_table "active_sessions", force: :cascade do |t|
-    t.integer "user_id", null: false
+ActiveRecord::Schema[7.0].define(version: 2022_12_10_110936) do
+  create_table "labyrinths", force: :cascade do |t|
+    t.string "labyrinth"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "user_agent"
-    t.string "ip_address"
-    t.string "remember_token", null: false
-    t.index ["remember_token"], name: "index_active_sessions_on_remember_token", unique: true
-    t.index ["user_id"], name: "index_active_sessions_on_user_id"
   end
 
-  create_table "player_status", force: :cascade do |t|
-    t.string "user_id"
-    t.string "status"
+  create_table "player_statuses", force: :cascade do |t|
+    t.string "status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -37,6 +31,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_10_122900) do
     t.string "password_digest", null: false
     t.string "unconfirmed_email"
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "active_sessions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_agent"
+    t.string "ip_address"
+    t.string "remember_token", null: false
+    t.index ["remember_token"], name: "index_active_sessions_on_remember_token", unique: true
+    t.index ["user_id"], name: "index_active_sessions_on_user_id"
   end
 
   add_foreign_key "active_sessions", "users", on_delete: :cascade
