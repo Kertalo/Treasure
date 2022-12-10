@@ -12,4 +12,7 @@
     <%= form.check_box :remember_me %>
   </div>
   <%= form.submit "Sign In" %>
+  <div>
+    <%= link_to "Reset password", '/password_rest', method: :get%>
+  </div>
 <% end %>

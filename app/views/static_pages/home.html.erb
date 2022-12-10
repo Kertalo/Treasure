@@ -1,6 +1,9 @@
 <h1>Welcome</h1>
 <% if user_signed_in? %>
   <h1>You are Logged In, <%= current_user.email %></h1>
+  <%= button_to "Edit account", '/account', method: :get%>
+  <%= button_to "Logout", '/logout', method: :delete%>
+  <%= button_to "Let's start playing", '/main', method: :get%>
 <%end%>
 <%= button_to "Login", '/login', method: :get%>
 <%= button_to "Sign Up", '/sign_up', method: :get%>
