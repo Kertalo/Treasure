@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get '/menu', to: 'game#menu'
   get '/loading', to: 'game#loading'
+  get '/cancel', to: 'game#cancel'
   get '/change_labyrinth', to: 'game#change_labyrinth'
   get '/main', to: 'game#main'
 

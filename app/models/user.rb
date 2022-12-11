@@ -10,6 +10,8 @@ class User < ApplicationRecord
   attr_accessor :current_password
 
   has_many :active_sessions, dependent: :destroy
+  has_one :ready_player, dependent: :destroy
+  has_one :labyrinth, dependent: :destroy
 
   before_save :downcase_email
   before_save :downcase_unconfirmed_email

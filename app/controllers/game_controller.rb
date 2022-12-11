@@ -4,7 +4,13 @@ class GameController < ApplicationController
   end
 
   def loading
-    PlayerStatus.create([{status: "ready"}])
+    current_user.create_ready_player
+  end
+
+  def cancel
+    ready = ReadyPlayer.find_by(id: session[:current_active_session_id])
+    ready.destroy! if ready.present?
+    redirect_to menu_path
   end
 
   def edit_labyrinth
@@ -12,7 +18,7 @@ class GameController < ApplicationController
   end
 
   def save_labyrinth
-    Labyrinth.create([{labyrinth: "0000000000000000000000000000000000000000000000000000000000000000"}])
+    current_user.create_labyrinth(labyrinth: "11")
     redirect_to "/edit_labyrinth"
   end
 end
