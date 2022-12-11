@@ -20,6 +20,12 @@ body {
     color: #fff;
 }
 
+.labyrinths {
+    display: inline;
+    color: #ff0000;
+    margin: 0 auto;
+}
+
 canvas {
     background: #222629;
     display: block;

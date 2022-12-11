@@ -3,7 +3,9 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   connect() {
     const canvas = document.getElementById("myCanvas");
+    const canvas2 = document.getElementById("myCanvas2");
     const ctx = canvas.getContext("2d");
+    const ctx2 = canvas2.getContext("2d");
 
     let width = canvas.offsetWidth;
     let height = canvas.offsetHeight;
@@ -40,19 +42,14 @@ export default class extends Controller {
 
     function create()
     {
-      if (localStorage.getItem('field') === null)
-      {
-        clear();
-      }
-
       ctx.beginPath();
       ctx.clearRect(0, 0, width, height);
       ctx.closePath();
 
-      field = JSON.parse(localStorage.getItem('field'));
+      //field = JSON.parse(localStorage.getItem('field'));
 
       //horizontal walls
-      for(let i = 0; i < 56; i++)
+      /*for(let i = 0; i < 56; i++)
         if ((field[i] & 4) === 4)
           create_wall(true, true, i, color_wall_exist);
         else
@@ -63,7 +60,7 @@ export default class extends Controller {
         if ((field[Math.floor(i / 8) + (i % 8) * 8] & 2) === 2)
           create_wall(false, true, i, color_wall_exist);
         else
-          create_wall(false, false, i, color_wall_clear);
+          create_wall(false, false, i, color_wall_clear);*/
 
       ctx.beginPath();
 
@@ -75,13 +72,17 @@ export default class extends Controller {
       ctx.fillStyle = color_side;
       ctx.fill();
       ctx.closePath();
-    }
 
-    function windowToCanvas(x, y)
-    {
-      let bbox = canvas.getBoundingClientRect();
-      return { x: x - bbox.left * (canvas.width / bbox.width),
-        y: y - bbox.top * (canvas.height / bbox.height) };
+      ctx2.beginPath();
+
+      ctx2.rect(0, 0, width, side);
+      ctx2.rect(0, 0, side, height);
+      ctx2.rect(width-side, 0, side, height);
+      ctx2.rect(0, height-side, width, side);
+
+      ctx2.fillStyle = color_side;
+      ctx2.fill();
+      ctx2.closePath();
     }
 
     function mouse(event, click)
@@ -151,22 +152,6 @@ export default class extends Controller {
         create();
     }
 
-    function clear()
-    {
-      for(let i = 0; i < 64; i++)
-        field[i] = 0;
-      localStorage.setItem('field', JSON.stringify(field));
-    }
-
-    canvas.onmousemove = function(event) { mouse(event, false) };
-    canvas.onmousedown = function(event) { mouse(event, true) };
     create();
-
-    const button_clear = document.getElementById("clear");
-    button_clear.addEventListener('click', (event) =>
-    {
-      clear();
-      create();
-    });
   }
 }
