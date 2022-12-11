@@ -2,13 +2,13 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   connect() {
-    const canvas = document.getElementById("myCanvas");
-    const canvas2 = document.getElementById("myCanvas2");
-    const ctx = canvas.getContext("2d");
-    const ctx2 = canvas2.getContext("2d");
+    const myCanvas = document.getElementById("myMove");
+    const otherCanvas = document.getElementById("otherMove");
+    const myCtx = myCanvas.getContext("2d");
+    const otherCtx = otherCanvas.getContext("2d");
 
-    let width = canvas.offsetWidth;
-    let height = canvas.offsetHeight;
+    let width = myCanvas.offsetWidth;
+    let height = myCanvas.offsetHeight;
     let wall = 10;
     let side = 14;
 
@@ -20,9 +20,26 @@ export default class extends Controller {
     let color_wall_exist_move = "#5a5a5a";
     let color_wall_clear_move = "#3c3c3c";
 
-    let field = [];
+    let myField = [];
+    let otherField = [];
 
-    function create_wall(is_horizontal, is_exist, i, color)
+    function start()
+    {
+      //здесь должно присваиваться myField и otherField текущим лабиринтам
+      for(let i = 0; i < 64; i++)
+        myField[i] = 0;
+      for(let i = 0; i < 8; i++)
+        myField[i] += 1;
+      for(let i = 56; i < 64; i++)
+        myField[i] += 4;
+      for(let i = 0; i < 64; i += 8)
+        myField[i] += 8;
+      for(let i = 7; i < 64; i += 8)
+        myField[i] += 2;
+      otherField = JSON.parse(localStorage.getItem('field'));
+    }
+
+    function create_wall(ctx, is_horizontal, is_exist, i, color)
     {
       ctx.beginPath();
       if (is_horizontal)
@@ -42,11 +59,9 @@ export default class extends Controller {
 
     function create()
     {
-      ctx.beginPath();
-      ctx.clearRect(0, 0, width, height);
-      ctx.closePath();
-
-      //field = JSON.parse(localStorage.getItem('field'));
+      otherCtx.beginPath();
+      otherCtx.clearRect(0, 0, width, height);
+      otherCtx.closePath();
 
       //horizontal walls
       /*for(let i = 0; i < 56; i++)
@@ -62,96 +77,30 @@ export default class extends Controller {
         else
           create_wall(false, false, i, color_wall_clear);*/
 
-      ctx.beginPath();
+      otherCtx.beginPath();
 
-      ctx.rect(0, 0, width, side);
-      ctx.rect(0, 0, side, height);
-      ctx.rect(width-side, 0, side, height);
-      ctx.rect(0, height-side, width, side);
+      otherCtx.rect(0, 0, width, side);
+      otherCtx.rect(0, 0, side, height);
+      otherCtx.rect(width-side, 0, side, height);
+      otherCtx.rect(0, height-side, width, side);
 
-      ctx.fillStyle = color_side;
-      ctx.fill();
-      ctx.closePath();
+      otherCtx.fillStyle = color_side;
+      otherCtx.fill();
+      otherCtx.closePath();
 
-      ctx2.beginPath();
+      myCtx.beginPath();
 
-      ctx2.rect(0, 0, width, side);
-      ctx2.rect(0, 0, side, height);
-      ctx2.rect(width-side, 0, side, height);
-      ctx2.rect(0, height-side, width, side);
+      myCtx.rect(0, 0, width, side);
+      myCtx.rect(0, 0, side, height);
+      myCtx.rect(width-side, 0, side, height);
+      myCtx.rect(0, height-side, width, side);
 
-      ctx2.fillStyle = color_side;
-      ctx2.fill();
-      ctx2.closePath();
+      myCtx.fillStyle = color_side;
+      myCtx.fill();
+      myCtx.closePath();
     }
 
-    function mouse(event, click)
-    {
-      let mouse = windowToCanvas(event.clientX, event.clientY);
-
-      if (mouse.x <= side || width - mouse.x <= side ||
-          mouse.y <= side || height - mouse.y <= side)
-      {
-        if (!click)
-          create();
-        return;
-      }
-
-      let position = -1;
-
-      for (let i = 1; i <= 8; i++)
-        if (mouse.x <= side + i * (cell + wall))
-        {
-          position = i - 1;
-          break;
-        }
-
-      for (let i = 1; i <= 8; i++)
-        if (mouse.y <= side + i * (cell + wall))
-        {
-          position += (i - 1) * 8;
-          break;
-        }
-
-      let dir = 0;
-
-      //x
-      if (mouse.x > side + (position % 8) * (cell + wall) + cell)
-        dir += 2;
-
-      //y
-      if (mouse.y > side + Math.floor(position / 8) * (cell + wall) + cell)
-        dir += 4;
-
-      if (dir === 2 || dir === 4)
-      {
-        if (click)
-        {
-          field[position] ^= dir;
-          if (dir === 2)
-            field[position + 1] ^= 8;
-          else if (dir === 4)
-            field[position + 8] ^= 1;
-          localStorage.setItem('field', JSON.stringify(field));
-        }
-        create();
-        if (dir === 2)
-        {
-          let color = ((field[position] & 2) === 2 ? color_wall_exist_move : color_wall_clear_move);
-          create_wall(false, false,
-              Math.floor(position / 8) + (position % 8) * 8, color);
-        }
-        else if (dir === 4)
-        {
-          let color = ((field[position] & 4) === 4 ? color_wall_exist_move : color_wall_clear_move);
-          create_wall(true, false, position, color);
-        }
-
-      }
-      else
-        create();
-    }
-
+    start();
     create();
   }
 }

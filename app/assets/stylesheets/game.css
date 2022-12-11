@@ -10,9 +10,8 @@
     font-size: 16px;
     line-height: 26px;
     text-indent: 30px;
-    margin: 0;
     width: 50%;
-    margin-top: 1em;
+    margin: 1em 0 0;
 }
 
 body {
@@ -21,29 +20,18 @@ body {
 }
 
 .labyrinths {
-    display: inline;
-    color: #ff0000;
-    margin: 0 auto;
+    display: flex;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
 }
 
 canvas {
     background: #222629;
-    display: block;
-    margin: 0 auto;
+    margin: 32px;
 }
-
-/*
-button {
-    background-color: #000000;
-    border: none;
-    color: black;
-    padding: 2px 2px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-}
-*/
 
 .form-field{
     display: flex;

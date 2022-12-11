@@ -3,12 +3,12 @@
 <% @height = "512" %>
 
 <div class="labyrinths">
-  <p>lol</p>
   <div data-controller="main">
-    <canvas id="myCanvas" width=<%= @width %> height=<%= @height %>></canvas>
-  </div>
-
-  <div data-controller="main">
-    <canvas id="myCanvas2" width=<%= @width %> height=<%= @height %>></canvas>
+    <canvas id="myMove" width=<%= @width %> height=<%= @height %>></canvas>
+    <canvas id="otherMove" width=<%= @width %> height=<%= @height %>></canvas>
+    <%= button_to 'Left', '/main', method: :get %>
+    <%= button_to 'Up', '/main', method: :get %>
+    <%= button_to 'Right', '/main', method: :get %>
+    <%= button_to 'Down', '/main', method: :get %>
   </div>
 </div>
