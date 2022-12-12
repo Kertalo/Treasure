@@ -23,6 +23,9 @@ export default class extends Controller {
     let myField = [];
     let otherField = [];
 
+    let myPosition = 0;
+    let otherPosition = 0;
+
     function start()
     {
       //здесь должно присваиваться myField и otherField текущим лабиринтам
@@ -39,16 +42,31 @@ export default class extends Controller {
       otherField = JSON.parse(localStorage.getItem('field'));
     }
 
-    function create_wall(ctx, is_horizontal, is_exist, i, color)
+    function create_road(ctx, position, rotation)
     {
+
+    }
+
+    function create_position(ctx, position)
+    {
+
+    }
+
+    function create_wall(ctx, position, rotation, is_exist, color)
+    {
+      if (rotation === 1)
+        position -= 8;
+      if (rotation === 2)
+        position += 1;
+
       ctx.beginPath();
-      if (is_horizontal)
-        ctx.rect(side - ((is_exist) ? wall : 0) + (i % 8) * (cell + wall),
-            side + cell + Math.floor(i / 8) * (cell + wall),
+      if (rotation === 1 || rotation === 4)
+        ctx.rect(side - ((is_exist) ? wall : 0) + (position % 8) * (cell + wall),
+            side + cell + Math.floor(position / 8) * (cell + wall),
             cell + ((is_exist) ? 2 * wall : 0), wall);
       else
-        ctx.rect(side + cell + Math.floor(i / 8) * (cell + wall),
-            side - ((is_exist) ? wall : 0) + (i % 8) * (cell + wall),
+        ctx.rect(side - wall + (position % 8) * (cell + wall),
+            side - ((is_exist) ? wall : 0) + Math.floor(position / 8) * (cell + wall),
             wall, cell + ((is_exist) ? 2 * wall : 0));
 
       ctx.fillStyle = color;
@@ -57,26 +75,40 @@ export default class extends Controller {
       ctx.closePath();
     }
 
+    function move(rotation, isClear, isMyTurn)
+    {
+      if (!isClear)
+        create_wall(isMyTurn ? myCtx : otherCtx, myPosition,
+            rotation, true, color_wall_exist)
+    }
+
     function create()
     {
-      otherCtx.beginPath();
-      otherCtx.clearRect(0, 0, width, height);
-      otherCtx.closePath();
+      //horizontal walls
+      for(let i = 0; i < 56; i++)
+        create_wall(myCtx, i, 4, false, color_wall_clear);
+      //vertical walls
+      for(let i = 0; i < 64; i++)
+        if (i % 8 !== 0)
+          create_wall(myCtx, i, 8, false, color_wall_clear);
 
       //horizontal walls
-      /*for(let i = 0; i < 56; i++)
-        if ((field[i] & 4) === 4)
-          create_wall(true, true, i, color_wall_exist);
+      for(let i = 0; i < 56; i++)
+        if ((otherField[i] & 4) === 4)
+          create_wall(otherCtx, i, 4, true, color_wall_exist);
         else
-          create_wall(true, false, i, color_wall_clear);
+          create_wall(otherCtx, i, 4, false, color_wall_clear);
 
       //vertical walls
-      for(let i = 0; i < 56; i++)
-        if ((field[Math.floor(i / 8) + (i % 8) * 8] & 2) === 2)
-          create_wall(false, true, i, color_wall_exist);
-        else
-          create_wall(false, false, i, color_wall_clear);*/
-
+      for(let i = 0; i < 64; i++)
+        if (i % 8 !== 0)
+        {
+          if ((otherField[i] & 8) === 8)
+            create_wall(otherCtx, i, 8, true, color_wall_exist);
+          else
+            create_wall(otherCtx, i, 8, false, color_wall_clear);
+        }
+      console.log(otherField);
       otherCtx.beginPath();
 
       otherCtx.rect(0, 0, width, side);
