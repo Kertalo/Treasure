@@ -1,4 +1,4 @@
-<h3>GAME</h3>
+<h3>Game</h3>
 <% @width = "512" %>
 <% @height = "512" %>
 
@@ -6,9 +6,9 @@
   <div data-controller="main">
     <canvas id="myMove" width=<%= @width %> height=<%= @height %>></canvas>
     <canvas id="otherMove" width=<%= @width %> height=<%= @height %>></canvas>
-    <%= button_to 'Left', '/main', method: :get %>
-    <%= button_to 'Up', '/main', method: :get %>
-    <%= button_to 'Right', '/main', method: :get %>
-    <%= button_to 'Down', '/main', method: :get %>
+    <button id="up">↑</button>
+    <button id="right">→</button>
+    <button id="down">↓</button>
+    <button id="left">←</button>
   </div>
 </div>

@@ -22,15 +22,10 @@ body {
 .labyrinths {
     display: flex;
     position: absolute;
-    top: 35%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%)
 }
 
 canvas {
     background: #222629;
-    margin: 32px;
 }
 
 .form-field{

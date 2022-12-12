@@ -9,16 +9,18 @@ export default class extends Controller {
 
     let width = myCanvas.offsetWidth;
     let height = myCanvas.offsetHeight;
+
+    let way = 10;
     let wall = 10;
     let side = 14;
 
     let cell = (width - 2 * side + wall) / 8 - wall;
 
+    let color_way = "#8888ff";
     let color_side = "#6e6e6e";
     let color_wall_exist = "#6e6e6e";
     let color_wall_clear = "#282828";
-    let color_wall_exist_move = "#5a5a5a";
-    let color_wall_clear_move = "#3c3c3c";
+    let color_wall_exist_move = "#3c3c3c";
 
     let myField = [];
     let otherField = [];
@@ -44,12 +46,29 @@ export default class extends Controller {
 
     function create_road(ctx, position, rotation)
     {
-
+      let new_position = (rotation & 10) > 0 ? (rotation === 2 ? position + 1 : position - 1) :
+          (rotation === 4 ? position + 8 : position - 8);
+      ctx.beginPath();
+      if ((rotation & 10) > 0)
+        ctx.rect(side + cell / 2 - way / 2 + ((rotation === 2 ? position : new_position) % 8) * (cell + wall),
+          side + cell / 2 - way / 2 + Math.floor(position / 8) * (cell + wall), cell + wall + way, way);
+      else
+        ctx.rect(side + cell / 2 - way / 2 + (position % 8) * (cell + wall), side + cell / 2 - way / 2 +
+          Math.floor((rotation === 4 ? position : new_position) / 8) * (cell + wall), way, cell + wall + way);
+      ctx.fillStyle = color_way;
+      ctx.fill();
+      ctx.closePath();
+      return new_position;
     }
 
     function create_position(ctx, position)
     {
-
+      ctx.beginPath();
+      ctx.arc(side + cell / 2 + (position % 8) * (cell + wall), side + cell / 2 + Math.floor(position / 8)
+          * (cell + wall), way/2, 0, Math.PI * 2, true);
+      ctx.fillStyle = "#0000ff";
+      ctx.fill();
+      ctx.closePath();
     }
 
     function create_wall(ctx, position, rotation, is_exist, color)
@@ -60,7 +79,7 @@ export default class extends Controller {
         position += 1;
 
       ctx.beginPath();
-      if (rotation === 1 || rotation === 4)
+      if ((rotation & 4) > 0)
         ctx.rect(side - ((is_exist) ? wall : 0) + (position % 8) * (cell + wall),
             side + cell + Math.floor(position / 8) * (cell + wall),
             cell + ((is_exist) ? 2 * wall : 0), wall);
@@ -77,9 +96,20 @@ export default class extends Controller {
 
     function move(rotation, isClear, isMyTurn)
     {
+      let ctx = isMyTurn ? myCtx : otherCtx;
+      let position = isMyTurn ? myPosition : otherPosition;
       if (!isClear)
-        create_wall(isMyTurn ? myCtx : otherCtx, myPosition,
+        create_wall(ctx, position,
             rotation, true, color_wall_exist)
+      else
+      {
+        position = create_road(ctx, position, rotation);
+        create_position(ctx, position);
+        if (isMyTurn)
+          myPosition = position;
+        else
+          otherPosition = position;
+      }
     }
 
     function create()
@@ -95,7 +125,7 @@ export default class extends Controller {
       //horizontal walls
       for(let i = 0; i < 56; i++)
         if ((otherField[i] & 4) === 4)
-          create_wall(otherCtx, i, 4, true, color_wall_exist);
+          create_wall(otherCtx, i, 4, true, color_wall_exist_move);
         else
           create_wall(otherCtx, i, 4, false, color_wall_clear);
 
@@ -104,11 +134,14 @@ export default class extends Controller {
         if (i % 8 !== 0)
         {
           if ((otherField[i] & 8) === 8)
-            create_wall(otherCtx, i, 8, true, color_wall_exist);
+            create_wall(otherCtx, i, 8, true, color_wall_exist_move);
           else
             create_wall(otherCtx, i, 8, false, color_wall_clear);
         }
-      console.log(otherField);
+
+      create_position(myCtx, 0);
+      create_position(otherCtx, 0);
+
       otherCtx.beginPath();
 
       otherCtx.rect(0, 0, width, side);
@@ -134,5 +167,18 @@ export default class extends Controller {
 
     start();
     create();
+
+    const button_up = document.getElementById("up");
+    const button_right = document.getElementById("right");
+    const button_down = document.getElementById("down");
+    const button_left = document.getElementById("left");
+    button_up.addEventListener('click', (event) =>
+    { move(1, true, true); });
+    button_right.addEventListener('click', (event) =>
+    { move(2, true, true); });
+    button_down.addEventListener('click', (event) =>
+    { move(4, true, true); });
+    button_left.addEventListener('click', (event) =>
+    { move(8, true, true); });
   }
 }
