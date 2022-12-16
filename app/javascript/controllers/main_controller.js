@@ -2,34 +2,90 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   connect() {
-    const canvas = document.getElementById("myCanvas");
-    const ctx = canvas.getContext("2d");
+    const myCanvas = document.getElementById("myMove");
+    const otherCanvas = document.getElementById("otherMove");
+    const myCtx = myCanvas.getContext("2d");
+    const otherCtx = otherCanvas.getContext("2d");
 
-    let width = canvas.offsetWidth;
-    let height = canvas.offsetHeight;
+    let width = myCanvas.offsetWidth;
+    let height = myCanvas.offsetHeight;
+
+    let way = 10;
     let wall = 10;
     let side = 14;
 
     let cell = (width - 2 * side + wall) / 8 - wall;
 
+    let color_way = "#8888ff";
     let color_side = "#6e6e6e";
     let color_wall_exist = "#6e6e6e";
     let color_wall_clear = "#282828";
-    let color_wall_exist_move = "#5a5a5a";
-    let color_wall_clear_move = "#3c3c3c";
+    let color_wall_exist_move = "#3c3c3c";
 
-    let field = [];
+    let myField = [];
+    let otherField = [];
 
-    function create_wall(is_horizontal, is_exist, i, color)
+    let myPosition = 0;
+    let otherPosition = 0;
+
+    function start()
+    {
+      //здесь должно присваиваться myField и otherField текущим лабиринтам
+      for(let i = 0; i < 64; i++)
+        myField[i] = 0;
+      for(let i = 0; i < 8; i++)
+        myField[i] += 1;
+      for(let i = 56; i < 64; i++)
+        myField[i] += 4;
+      for(let i = 0; i < 64; i += 8)
+        myField[i] += 8;
+      for(let i = 7; i < 64; i += 8)
+        myField[i] += 2;
+      otherField = JSON.parse(localStorage.getItem('field'));
+    }
+
+    function create_road(ctx, position, rotation)
+    {
+      let new_position = (rotation & 10) > 0 ? (rotation === 2 ? position + 1 : position - 1) :
+          (rotation === 4 ? position + 8 : position - 8);
+      ctx.beginPath();
+      if ((rotation & 10) > 0)
+        ctx.rect(side + cell / 2 - way / 2 + ((rotation === 2 ? position : new_position) % 8) * (cell + wall),
+          side + cell / 2 - way / 2 + Math.floor(position / 8) * (cell + wall), cell + wall + way, way);
+      else
+        ctx.rect(side + cell / 2 - way / 2 + (position % 8) * (cell + wall), side + cell / 2 - way / 2 +
+          Math.floor((rotation === 4 ? position : new_position) / 8) * (cell + wall), way, cell + wall + way);
+      ctx.fillStyle = color_way;
+      ctx.fill();
+      ctx.closePath();
+      return new_position;
+    }
+
+    function create_position(ctx, position)
     {
       ctx.beginPath();
-      if (is_horizontal)
-        ctx.rect(side - ((is_exist) ? wall : 0) + (i % 8) * (cell + wall),
-            side + cell + Math.floor(i / 8) * (cell + wall),
+      ctx.arc(side + cell / 2 + (position % 8) * (cell + wall), side + cell / 2 + Math.floor(position / 8)
+          * (cell + wall), way/2, 0, Math.PI * 2, true);
+      ctx.fillStyle = "#0000ff";
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function create_wall(ctx, position, rotation, is_exist, color)
+    {
+      if (rotation === 1)
+        position -= 8;
+      if (rotation === 2)
+        position += 1;
+
+      ctx.beginPath();
+      if ((rotation & 4) > 0)
+        ctx.rect(side - ((is_exist) ? wall : 0) + (position % 8) * (cell + wall),
+            side + cell + Math.floor(position / 8) * (cell + wall),
             cell + ((is_exist) ? 2 * wall : 0), wall);
       else
-        ctx.rect(side + cell + Math.floor(i / 8) * (cell + wall),
-            side - ((is_exist) ? wall : 0) + (i % 8) * (cell + wall),
+        ctx.rect(side - wall + (position % 8) * (cell + wall),
+            side - ((is_exist) ? wall : 0) + Math.floor(position / 8) * (cell + wall),
             wall, cell + ((is_exist) ? 2 * wall : 0));
 
       ctx.fillStyle = color;
@@ -38,135 +94,91 @@ export default class extends Controller {
       ctx.closePath();
     }
 
+    function move(rotation, isClear, isMyTurn)
+    {
+      let ctx = isMyTurn ? myCtx : otherCtx;
+      let position = isMyTurn ? myPosition : otherPosition;
+      if (!isClear)
+        create_wall(ctx, position,
+            rotation, true, color_wall_exist)
+      else
+      {
+        position = create_road(ctx, position, rotation);
+        create_position(ctx, position);
+        if (isMyTurn)
+          myPosition = position;
+        else
+          otherPosition = position;
+      }
+    }
+
     function create()
     {
-      if (localStorage.getItem('field') === null)
-      {
-        clear();
-      }
-
-      ctx.beginPath();
-      ctx.clearRect(0, 0, width, height);
-      ctx.closePath();
-
-      field = JSON.parse(localStorage.getItem('field'));
+      //horizontal walls
+      for(let i = 0; i < 56; i++)
+        create_wall(myCtx, i, 4, false, color_wall_clear);
+      //vertical walls
+      for(let i = 0; i < 64; i++)
+        if (i % 8 !== 0)
+          create_wall(myCtx, i, 8, false, color_wall_clear);
 
       //horizontal walls
       for(let i = 0; i < 56; i++)
-        if ((field[i] & 4) === 4)
-          create_wall(true, true, i, color_wall_exist);
+        if ((otherField[i] & 4) === 4)
+          create_wall(otherCtx, i, 4, true, color_wall_exist_move);
         else
-          create_wall(true, false, i, color_wall_clear);
+          create_wall(otherCtx, i, 4, false, color_wall_clear);
 
       //vertical walls
-      for(let i = 0; i < 56; i++)
-        if ((field[Math.floor(i / 8) + (i % 8) * 8] & 2) === 2)
-          create_wall(false, true, i, color_wall_exist);
-        else
-          create_wall(false, false, i, color_wall_clear);
-
-      ctx.beginPath();
-
-      ctx.rect(0, 0, width, side);
-      ctx.rect(0, 0, side, height);
-      ctx.rect(width-side, 0, side, height);
-      ctx.rect(0, height-side, width, side);
-
-      ctx.fillStyle = color_side;
-      ctx.fill();
-      ctx.closePath();
-    }
-
-    function windowToCanvas(x, y)
-    {
-      let bbox = canvas.getBoundingClientRect();
-      return { x: x - bbox.left * (canvas.width / bbox.width),
-        y: y - bbox.top * (canvas.height / bbox.height) };
-    }
-
-    function mouse(event, click)
-    {
-      let mouse = windowToCanvas(event.clientX, event.clientY);
-
-      if (mouse.x <= side || width - mouse.x <= side ||
-          mouse.y <= side || height - mouse.y <= side)
-      {
-        if (!click)
-          create();
-        return;
-      }
-
-      let position = -1;
-
-      for (let i = 1; i <= 8; i++)
-        if (mouse.x <= side + i * (cell + wall))
-        {
-          position = i - 1;
-          break;
-        }
-
-      for (let i = 1; i <= 8; i++)
-        if (mouse.y <= side + i * (cell + wall))
-        {
-          position += (i - 1) * 8;
-          break;
-        }
-
-      let dir = 0;
-
-      //x
-      if (mouse.x > side + (position % 8) * (cell + wall) + cell)
-        dir += 2;
-
-      //y
-      if (mouse.y > side + Math.floor(position / 8) * (cell + wall) + cell)
-        dir += 4;
-
-      if (dir === 2 || dir === 4)
-      {
-        if (click)
-        {
-          field[position] ^= dir;
-          if (dir === 2)
-            field[position + 1] ^= 8;
-          else if (dir === 4)
-            field[position + 8] ^= 1;
-          localStorage.setItem('field', JSON.stringify(field));
-        }
-        create();
-        if (dir === 2)
-        {
-          let color = ((field[position] & 2) === 2 ? color_wall_exist_move : color_wall_clear_move);
-          create_wall(false, false,
-              Math.floor(position / 8) + (position % 8) * 8, color);
-        }
-        else if (dir === 4)
-        {
-          let color = ((field[position] & 4) === 4 ? color_wall_exist_move : color_wall_clear_move);
-          create_wall(true, false, position, color);
-        }
-
-      }
-      else
-        create();
-    }
-
-    function clear()
-    {
       for(let i = 0; i < 64; i++)
-        field[i] = 0;
-      localStorage.setItem('field', JSON.stringify(field));
+        if (i % 8 !== 0)
+        {
+          if ((otherField[i] & 8) === 8)
+            create_wall(otherCtx, i, 8, true, color_wall_exist_move);
+          else
+            create_wall(otherCtx, i, 8, false, color_wall_clear);
+        }
+
+      create_position(myCtx, 0);
+      create_position(otherCtx, 0);
+
+      otherCtx.beginPath();
+
+      otherCtx.rect(0, 0, width, side);
+      otherCtx.rect(0, 0, side, height);
+      otherCtx.rect(width-side, 0, side, height);
+      otherCtx.rect(0, height-side, width, side);
+
+      otherCtx.fillStyle = color_side;
+      otherCtx.fill();
+      otherCtx.closePath();
+
+      myCtx.beginPath();
+
+      myCtx.rect(0, 0, width, side);
+      myCtx.rect(0, 0, side, height);
+      myCtx.rect(width-side, 0, side, height);
+      myCtx.rect(0, height-side, width, side);
+
+      myCtx.fillStyle = color_side;
+      myCtx.fill();
+      myCtx.closePath();
     }
 
-    canvas.onmousemove = function(event) { mouse(event, false) };
-    canvas.onmousedown = function(event) { mouse(event, true) };
+    start();
     create();
 
-    const button_clear = document.getElementById("clear");
-    button_clear.addEventListener('click', (event) =>
-    {
-      clear();
-      create();
-    });
+    const button_up = document.getElementById("up");
+    const button_right = document.getElementById("right");
+    const button_down = document.getElementById("down");
+    const button_left = document.getElementById("left");
+    button_up.addEventListener('click', (event) =>
+    { move(1, true, true); });
+    button_right.addEventListener('click', (event) =>
+    { move(2, true, true); });
+    button_down.addEventListener('click', (event) =>
+    { move(4, true, true); });
+    button_left.addEventListener('click', (event) =>
+    { move(8, true, true); });
   }
 }

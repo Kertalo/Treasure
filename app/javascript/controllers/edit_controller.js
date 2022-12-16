@@ -155,6 +155,14 @@ export default class extends Controller {
     {
       for(let i = 0; i < 64; i++)
         field[i] = 0;
+      for(let i = 0; i < 8; i++)
+        field[i] += 1;
+      for(let i = 56; i < 64; i++)
+        field[i] += 4;
+      for(let i = 0; i < 64; i += 8)
+        field[i] += 8;
+      for(let i = 7; i < 64; i += 8)
+        field[i] += 2;
       localStorage.setItem('field', JSON.stringify(field));
     }
 

@@ -1,12 +1,14 @@
-<h3>GAME</h3>
+<h3>Game</h3>
 <% @width = "512" %>
 <% @height = "512" %>
 
-<div data-controller="main">
-  <canvas id="myCanvas" width=<%= @width %> height=<%= @height %>></canvas>
+<div class="labyrinths">
+  <div data-controller="main">
+    <canvas id="myMove" width=<%= @width %> height=<%= @height %>></canvas>
+    <canvas id="otherMove" width=<%= @width %> height=<%= @height %>></canvas>
+    <button id="up">↑</button>
+    <button id="right">→</button>
+    <button id="down">↓</button>
+    <button id="left">←</button>
+  </div>
 </div>
-
-<div data-controller="main">
-  <canvas id="myCanvas" width=<%= @width %> height=<%= @height %>></canvas>
-</div>
-
