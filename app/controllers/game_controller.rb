@@ -18,7 +18,7 @@ class GameController < ApplicationController
   end
 
   def save_labyrinth
-    current_user.create_labyrinth(labyrinth: "11")
+    current_user.create_labyrinth(labyrinth: params[:field])
     redirect_to "/edit_labyrinth"
   end
 end

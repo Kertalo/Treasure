@@ -7,5 +7,26 @@
   <%= button_to 'Back', '/menu', method: :get %>
   <%= button_to 'Clear', '/edit_labyrinth', id: "clear", method: :get %>
   <%= button_to 'Reset', '/edit_labyrinth', method: :get %>
-  <%= button_to 'Save', '/save_labyrinth', method: :get %>
+  <button id='getData' onclick="getData()">Save</button>
+  <script>
+      async function getData() {
+          let labyrinth = {
+              field: localStorage.getItem('field')
+          };
+
+          const token = document.querySelector('meta[name="csrf-token"]').content;
+
+          let response = await fetch('/save_labyrinth', {
+              method: 'POST',
+              headers: {
+                  "X-CSRF-Token": token,
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify(labyrinth)
+          });
+
+          let result = await response.json();
+          alert(result.message);
+      }
+  </script>
 </div>
