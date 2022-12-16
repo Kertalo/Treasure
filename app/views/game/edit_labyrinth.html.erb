@@ -6,10 +6,18 @@
   <canvas id="myCanvas" width=<%= @width %> height=<%= @height %>></canvas>
   <%= button_to 'Back', '/menu', method: :get %>
   <%= button_to 'Clear', '/edit_labyrinth', id: "clear", method: :get %>
-  <%= button_to 'Reset', '/edit_labyrinth', method: :get %>
-  <button id='getData' onclick="getData()">Save</button>
+  <button id='resetLab' onclick="get_lab()">Reset</button>
   <script>
-      async function getData() {
+      async function get_lab() {
+          fetch('/reset_labyrinth')
+              .then(response => response.json())
+              .then(results => localStorage.setItem('field', JSON.stringify(results)));
+      }
+  </script>
+
+  <button id='saveLab' onclick="save_lab()">Save</button>
+  <script>
+      async function save_lab() {
           let labyrinth = {
               field: localStorage.getItem('field')
           };
