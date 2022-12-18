@@ -87,6 +87,21 @@ class User < ApplicationRecord
     end
   end
 
+  def self.from_omniauth(auth)
+    user = User.find_by(email: auth.info.email)
+    if user
+      user.provider = auth.provider
+      user.uid = auth.uid
+      user.save
+    else
+      user = User.where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+        user.email = auth.info.email
+        user.password = SecureRandom.hex(15)
+      end
+    end
+    user
+  end
+
   private
 
   def downcase_email

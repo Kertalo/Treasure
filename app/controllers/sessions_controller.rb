@@ -19,6 +19,15 @@ class SessionsController < ApplicationController
     end
   end
 
+  def omniauth
+    access_token = request.env["omniauth.auth"]
+    user = User.from_omniauth(access_token)
+    if user.valid?
+      login(user)
+    end
+      redirect_to root_path
+  end
+
   def destroy
     forget_active_session
     logout

@@ -33,4 +33,7 @@ Rails.application.routes.draw do
   get '/edit_labyrinth', to: 'game#edit_labyrinth'
   post '/save_labyrinth', to: 'game#save_labyrinth'
   get '/reset_labyrinth', to: 'game#reset_labyrinth'
+
+  # Routes for Google authentication
+  get 'auth/:provider/callback', to: 'sessions#omniauth'
 end
