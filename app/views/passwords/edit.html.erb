@@ -1,3 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <span class="navbar-brand">
+    Treasure
+  </span>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/home">Home</a>
+      </li>
+      <% if user_signed_in? %>
+        <li class="nav-item">
+          <a class="nav-link" href="/account">Edit account</a>
+        </li>
+      <%end%>
+    </ul>
+    <% if user_signed_in? %>
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <form class="button_to" method="post" action="/logout">
+            <input type="hidden" name="_method" value="delete" autocomplete="off">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</button>
+          </form>
+        </li>
+      </ul>
+    <%end%>
+    <% unless user_signed_in? %>
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+      </ul>
+      <form class="button_to" method="get" action="/sign_up">
+        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Sign Up</button>
+      </form>
+    <% end %>
+  </div>
+</nav>
 <%= form_with url: password_path(params[:password_reset_token]), scope: :user, method: :put do |form| %>
   <div>
     <%= form.label :password %>
