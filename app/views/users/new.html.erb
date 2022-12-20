@@ -35,22 +35,76 @@
     <% end %>
   </div>
 </nav>
-<%= form_with model: @user, url: sign_up_path do |form| %>
-  <%= render partial: "shared/form_errors", locals: { object: form.object } %>
-  <div>
-    <%= form.label :email %>
-    <%= form.email_field :email, required: true %>
+<style>
+    body{
+        font-size: 16px;
+        color: #222629;
+    }
+    .reg-page {
+        width: 400px;
+        padding: 2% 0 0;
+        margin: auto;
+    }
+    .form {
+        position: relative;
+        z-index: 1;
+        background: #FFFFFF;
+        max-width: 400px;
+        margin: 0 auto 100px;
+        padding: 45px;
+        text-align: center;
+        box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    }
+    .form input {
+        font-family: "Roboto", sans-serif;
+        outline: 0;
+        background: #f2f2f2;
+        width: 100%;
+        border: 0;
+        margin: 0 0 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+    .form button {
+        font-family: "Roboto", sans-serif;
+        text-transform: uppercase;
+        outline: 0;
+        background: #4CAF50;
+        width: 100%;
+        border: 0;
+        padding: 15px;
+        color: #FFFFFF;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .form button:hover,.form button:active,.form button:focus {
+        background: #43A047;
+    }
+</style>
+<div class="reg-page">
+  <div class="form">
+    <h1>Register</h1>
+    <p>Please fill in this form to create an account.</p>
+    <%= form_with model: @user, url: sign_up_path do |form| %>
+      <%= render partial: "shared/form_errors", locals: { object: form.object } %>
+      <div>
+        <%= form.label :email %>
+        <%= form.email_field :email, required: true, placeholder: "Enter Email" %>
+      </div>
+      <div>
+        <%= form.label :password %>
+        <%= form.password_field :password, required: true, placeholder: "Enter Password" %>
+      </div>
+      <div>
+        <%= form.label :password_confirmation %>
+        <%= form.password_field :password_confirmation, required: true, placeholder: "Repeat Password" %>
+      </div>
+      <%= form.submit "Sign Up" %>
+      <div>
+        <%= link_to "Log in with Google", '/auth/google_oauth2', method: :post  %>
+      </div>
+      <p>Already have an account? <a href="/login">Login</a>.</p>
+    <% end %>
   </div>
-  <div>
-    <%= form.label :password %>
-    <%= form.password_field :password, required: true %>
-  </div>
-  <div>
-    <%= form.label :password_confirmation %>
-    <%= form.password_field :password_confirmation, required: true %>
-  </div>
-  <%= form.submit "Sign Up" %>
-  <div>
-    <%= link_to "Log in with Google", '/auth/google_oauth2', method: :post  %>
-  </div>
-<% end %>
+</div>
