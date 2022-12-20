@@ -168,7 +168,6 @@ export default class extends Controller {
 
     canvas.onmousemove = function(event) { mouse(event, false) };
     canvas.onmousedown = function(event) { mouse(event, true) };
-    create();
 
     const button_clear = document.getElementById("clear");
     button_clear.addEventListener('click', (event) =>
@@ -176,5 +175,36 @@ export default class extends Controller {
       clear();
       create();
     });
+
+    async function reset_labyrinth()
+    {
+      await fetch('/reset_labyrinth')
+          .then(response => response.json())
+          .then(results => { localStorage.setItem('field', JSON.stringify(results)); create(); });
+    }
+
+    const button_reset = document.getElementById("reset");
+    button_reset.addEventListener('click', (event) => reset_labyrinth());
+
+    async function save_labyrinth()
+    {
+      let labyrinth = { field: localStorage.getItem('field') };
+
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+
+      await fetch('/save_labyrinth', {
+        method: 'POST',
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(labyrinth)
+      });
+    }
+
+    const button_save = document.getElementById("save");
+    button_save.addEventListener('click', (event) => save_labyrinth());
+
+    create();
   }
 }

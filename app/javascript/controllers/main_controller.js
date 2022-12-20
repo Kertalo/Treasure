@@ -41,7 +41,10 @@ export default class extends Controller {
         myField[i] += 8;
       for(let i = 7; i < 64; i += 8)
         myField[i] += 2;
+
       otherField = JSON.parse(localStorage.getItem('field'));
+
+      create();
     }
 
     function create_road(ctx, position, rotation)
@@ -165,9 +168,6 @@ export default class extends Controller {
       myCtx.closePath();
     }
 
-    start();
-    create();
-
     const button_up = document.getElementById("up");
     const button_right = document.getElementById("right");
     const button_down = document.getElementById("down");
@@ -179,6 +179,15 @@ export default class extends Controller {
     button_down.addEventListener('click', (event) =>
     { move(4, true, true); });
     button_left.addEventListener('click', (event) =>
-    { move(8, true, true); });
+    { create(); move(8, true, true); });
+
+    async function set_other_labyrinth()
+    {
+      fetch('/set_other_labyrinth')
+          .then(response => response.json())
+          .then(results => { localStorage.setItem('field', JSON.stringify(results)); start(); });
+    }
+
+    set_other_labyrinth().then(r => r);
   }
 }

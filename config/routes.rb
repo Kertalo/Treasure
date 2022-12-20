@@ -33,4 +33,5 @@ Rails.application.routes.draw do
   get '/edit_labyrinth', to: 'game#edit_labyrinth'
   post '/save_labyrinth', to: 'game#save_labyrinth'
   get '/reset_labyrinth', to: 'game#reset_labyrinth'
+  get '/set_other_labyrinth', to: 'game#set_other_labyrinth'
 end

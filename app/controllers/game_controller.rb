@@ -35,4 +35,13 @@ class GameController < ApplicationController
       redirect_to "/edit_labyrinth", alert: "We could not find a labyrinth with for this user."
     end
   end
+
+  def set_other_labyrinth
+    lab = Labyrinth.find_by(user_id: Current.user.id).labyrinth
+    if lab.present?
+      render json: lab
+    else
+      redirect_to "/edit_labyrinth", alert: "We could not find a labyrinth with for this user."
+    end
+  end
 end
