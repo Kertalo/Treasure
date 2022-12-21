@@ -38,12 +38,10 @@ export default class extends Controller {
       ctx.closePath();
     }
 
-    function create()
+    function update()
     {
       if (localStorage.getItem('field') === null)
-      {
         clear();
-      }
 
       ctx.beginPath();
       ctx.clearRect(0, 0, width, height);
@@ -92,7 +90,7 @@ export default class extends Controller {
           mouse.y <= side || height - mouse.y <= side)
       {
         if (!click)
-          create();
+          update();
         return;
       }
 
@@ -133,7 +131,7 @@ export default class extends Controller {
             field[position + 8] ^= 1;
           localStorage.setItem('field', JSON.stringify(field));
         }
-        create();
+        update();
         if (dir === 2)
         {
           let color = ((field[position] & 2) === 2 ? color_wall_exist_move : color_wall_clear_move);
@@ -148,7 +146,7 @@ export default class extends Controller {
 
       }
       else
-        create();
+        update();
     }
 
     function clear()
@@ -163,18 +161,49 @@ export default class extends Controller {
         field[i] += 8;
       for(let i = 7; i < 64; i += 8)
         field[i] += 2;
+
       localStorage.setItem('field', JSON.stringify(field));
     }
 
     canvas.onmousemove = function(event) { mouse(event, false) };
     canvas.onmousedown = function(event) { mouse(event, true) };
-    create();
 
     const button_clear = document.getElementById("clear");
     button_clear.addEventListener('click', (event) =>
     {
       clear();
-      create();
+      update();
     });
+
+    async function reset_labyrinth()
+    {
+      await fetch('/reset_labyrinth')
+          .then(response => response.json())
+          .then(results => { localStorage.setItem('field', JSON.stringify(results)); update(); });
+    }
+
+    const button_reset = document.getElementById("reset");
+    button_reset.addEventListener('click', (event) => reset_labyrinth());
+
+    async function save_labyrinth()
+    {
+      let labyrinth = { field: localStorage.getItem('field') };
+
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+
+      await fetch('/save_labyrinth', {
+        method: 'POST',
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(labyrinth)
+      });
+    }
+
+    const button_save = document.getElementById("save");
+    button_save.addEventListener('click', (event) => save_labyrinth());
+
+    update();
   }
 }

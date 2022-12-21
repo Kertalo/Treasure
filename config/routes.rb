@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
   root 'static_pages#home'
 
-  get '/menu', to: 'game#menu'
+  get '/home', to: 'static_pages#home'
   get '/loading', to: 'game#loading'
   get '/cancel', to: 'game#cancel'
-  get '/change_labyrinth', to: 'game#change_labyrinth'
   get '/main', to: 'game#main'
 
   post "sign_up", to: "users#create"
@@ -36,4 +35,6 @@ Rails.application.routes.draw do
 
   # Routes for Google authentication
   get 'auth/:provider/callback', to: 'sessions#omniauth'
+
+  get '/set_other_labyrinth', to: 'game#set_other_labyrinth'
 end

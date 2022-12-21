@@ -11,7 +11,7 @@ class GameController < ApplicationController
   def cancel
     ready = ReadyPlayer.find_by(id: Current.user.id)
     ready.destroy! if ready.present?
-    redirect_to menu_path
+    redirect_to root_path
   end
 
   def edit_labyrinth
@@ -29,6 +29,15 @@ class GameController < ApplicationController
   end
 
   def reset_labyrinth
+    lab = Labyrinth.find_by(user_id: Current.user.id).labyrinth
+    if lab.present?
+      render json: lab
+    else
+      redirect_to "/edit_labyrinth", alert: "We could not find a labyrinth with for this user."
+    end
+  end
+
+  def set_other_labyrinth
     lab = Labyrinth.find_by(user_id: Current.user.id).labyrinth
     if lab.present?
       render json: lab

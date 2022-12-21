@@ -1,4 +1,10 @@
-<%= form_with model: @user, url: confirmations_path do |form| %>
-  <%= form.email_field :email, required: true %>
-  <%= form.submit "Confirm Email" %>
-<% end %>
+<%= render("layouts/navbar") %>
+<%= stylesheet_link_tag "form" %>
+<div class="page">
+  <div class="form">
+    <%= form_with model: @user, url: confirmations_path do |form| %>
+      <%= form.email_field :email, required: true, placeholder: "Enter Email" %>
+      <%= form.submit "Confirm Email" %>
+    <% end %>
+  </div>
+</div>

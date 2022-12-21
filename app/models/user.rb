@@ -13,6 +13,9 @@ class User < ApplicationRecord
   has_one :ready_player, dependent: :destroy
   has_one :labyrinth, dependent: :destroy
 
+  has_many :primary_players, :class_name => "Game", :foreign_key => "player1"
+  has_many :secondary_players, :class_name => "Game", :foreign_key => "player2"
+
   before_save :downcase_email
   before_save :downcase_unconfirmed_email
 

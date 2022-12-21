@@ -24,25 +24,13 @@ export default class extends Controller {
 
     let myField = [];
     let otherField = [];
+    let editField = [];
+
+    let myWay = [0];
+    let otherWay = [0];
 
     let myPosition = 0;
     let otherPosition = 0;
-
-    function start()
-    {
-      //здесь должно присваиваться myField и otherField текущим лабиринтам
-      for(let i = 0; i < 64; i++)
-        myField[i] = 0;
-      for(let i = 0; i < 8; i++)
-        myField[i] += 1;
-      for(let i = 56; i < 64; i++)
-        myField[i] += 4;
-      for(let i = 0; i < 64; i += 8)
-        myField[i] += 8;
-      for(let i = 7; i < 64; i += 8)
-        myField[i] += 2;
-      otherField = JSON.parse(localStorage.getItem('field'));
-    }
 
     function create_road(ctx, position, rotation)
     {
@@ -112,61 +100,87 @@ export default class extends Controller {
       }
     }
 
-    function create()
+    function start()
     {
-      //horizontal walls
-      for(let i = 0; i < 56; i++)
-        create_wall(myCtx, i, 4, false, color_wall_clear);
-      //vertical walls
       for(let i = 0; i < 64; i++)
-        if (i % 8 !== 0)
-          create_wall(myCtx, i, 8, false, color_wall_clear);
+        myField[i] = 0;
+      localStorage.setItem('my_field', JSON.stringify(myField));
 
-      //horizontal walls
-      for(let i = 0; i < 56; i++)
-        if ((otherField[i] & 4) === 4)
-          create_wall(otherCtx, i, 4, true, color_wall_exist_move);
-        else
-          create_wall(otherCtx, i, 4, false, color_wall_clear);
-
-      //vertical walls
       for(let i = 0; i < 64; i++)
-        if (i % 8 !== 0)
-        {
-          if ((otherField[i] & 8) === 8)
-            create_wall(otherCtx, i, 8, true, color_wall_exist_move);
-          else
-            create_wall(otherCtx, i, 8, false, color_wall_clear);
-        }
+        otherField[i] = 0;
+      localStorage.setItem('other_field', JSON.stringify(otherField));
 
-      create_position(myCtx, 0);
-      create_position(otherCtx, 0);
+      localStorage.setItem('my_way', JSON.stringify(myWay));
+      localStorage.setItem('other_way', JSON.stringify(otherWay));
 
-      otherCtx.beginPath();
+      editField = JSON.parse(localStorage.getItem('field'));
 
-      otherCtx.rect(0, 0, width, side);
-      otherCtx.rect(0, 0, side, height);
-      otherCtx.rect(width-side, 0, side, height);
-      otherCtx.rect(0, height-side, width, side);
-
-      otherCtx.fillStyle = color_side;
-      otherCtx.fill();
-      otherCtx.closePath();
-
-      myCtx.beginPath();
-
-      myCtx.rect(0, 0, width, side);
-      myCtx.rect(0, 0, side, height);
-      myCtx.rect(width-side, 0, side, height);
-      myCtx.rect(0, height-side, width, side);
-
-      myCtx.fillStyle = color_side;
-      myCtx.fill();
-      myCtx.closePath();
+      update();
     }
 
-    start();
-    create();
+    function horizontal_vertical_walls(ctx, field, is_edit)
+    {
+      //horizontal walls
+      for (let i = 0; i < 56; i++)
+        if ((field[i] & 4) === 4)
+          create_wall(ctx, i, 4, true, color_wall_exist);
+        else if (is_edit && ((editField[i] & 4) === 4))
+          create_wall(ctx, i, 4, true, color_wall_exist_move);
+        else
+          create_wall(ctx, i, 4, false, color_wall_clear);
+
+      //vertical walls
+      for (let i = 0; i < 64; i++)
+        if (i % 8 !== 0)
+        {
+          if ((field[i] & 8) === 8)
+            create_wall(ctx, i, 8, true, color_wall_exist);
+          else if (is_edit && ((editField[i] & 8) === 8))
+            create_wall(ctx, i, 8, true, color_wall_exist_move);
+          else
+            create_wall(ctx, i, 8, false, color_wall_clear);
+        }
+    }
+
+    function find_rotation(pos1, pos2)
+    {
+      if (pos1 + 1 === pos2)
+        return 2;
+      if (pos1 - 1 === pos2)
+        return 8;
+      if (pos1 + 8 === pos2)
+        return 1;
+      if (pos1 - 8 === pos2)
+        return 4;
+    }
+
+    function update_with_ctx(ctx, field, way, is_edit)
+    {
+      ctx.beginPath();
+      ctx.clearRect(0, 0, width, height);
+      ctx.closePath();
+
+      horizontal_vertical_walls(ctx, field, is_edit);
+
+      for (let i = 0; i < way.length - 1; i++)
+        create_road(ctx, way[i], find_rotation(way[i], way[i + 1]));
+      create_position(ctx, way[way.length - 1]);
+
+      ctx.beginPath();
+      ctx.rect(0, 0, width, side);
+      ctx.rect(0, 0, side, height);
+      ctx.rect(width-side, 0, side, height);
+      ctx.rect(0, height-side, width, side);
+      ctx.fillStyle = color_side;
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function update()
+    {
+      update_with_ctx(myCtx, myField, myWay, false);
+      update_with_ctx(otherCtx, otherField, otherWay, true);
+    }
 
     const button_up = document.getElementById("up");
     const button_right = document.getElementById("right");
@@ -180,5 +194,14 @@ export default class extends Controller {
     { move(4, true, true); });
     button_left.addEventListener('click', (event) =>
     { move(8, true, true); });
+
+    async function set_other_labyrinth()
+    {
+      fetch('/set_other_labyrinth')
+          .then(response => response.json())
+          .then(results => { localStorage.setItem('field', JSON.stringify(results)); start(); });
+    }
+
+    set_other_labyrinth().then(r => r);
   }
 }
