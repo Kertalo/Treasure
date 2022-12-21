@@ -1,4 +1,5 @@
 class GameController < ApplicationController
+  before_action :authenticate_user!
   def menu
 
   end
@@ -10,7 +11,7 @@ class GameController < ApplicationController
   def cancel
     ready = ReadyPlayer.find_by(id: Current.user.id)
     ready.destroy! if ready.present?
-    redirect_to menu_path
+    redirect_to root_path
   end
 
   def edit_labyrinth

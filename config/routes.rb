@@ -2,10 +2,8 @@ Rails.application.routes.draw do
   root 'static_pages#home'
 
   get '/home', to: 'static_pages#home'
-  get '/menu', to: 'game#menu'
   get '/loading', to: 'game#loading'
   get '/cancel', to: 'game#cancel'
-  get '/change_labyrinth', to: 'game#change_labyrinth'
   get '/main', to: 'game#main'
 
   post "sign_up", to: "users#create"
