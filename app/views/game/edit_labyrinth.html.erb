@@ -5,37 +5,8 @@
 
 <div data-controller="edit">
   <canvas id="myCanvas" width=<%= @width %> height=<%= @height %>></canvas>
-  <%= button_to 'Back', '/home', method: :get %>
-  <%= button_to 'Clear', '/edit_labyrinth', id: "clear", method: :get %>
-  <button id='resetLab' onclick="get_lab()">Reset</button>
-  <script>
-      async function get_lab() {
-          fetch('/reset_labyrinth')
-              .then(response => response.json())
-              .then(results => localStorage.setItem('field', JSON.stringify(results)));
-      }
-  </script>
-
-  <button id='saveLab' onclick="save_lab()">Save</button>
-  <script>
-      async function save_lab() {
-          let labyrinth = {
-              field: localStorage.getItem('field')
-          };
-
-          const token = document.querySelector('meta[name="csrf-token"]').content;
-
-          let response = await fetch('/save_labyrinth', {
-              method: 'POST',
-              headers: {
-                  "X-CSRF-Token": token,
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify(labyrinth)
-          });
-
-          let result = await response.json();
-          alert(result.message);
-      }
-  </script>
+  <%= button_to 'Back', '/menu', method: :get %>
+  <button id='clear'>Clear</button>
+  <button id='reset'>Reset</button>
+  <button id='save'>Save</button>
 </div>

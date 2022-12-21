@@ -34,9 +34,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_21_185247) do
 
   create_table "labyrinths", force: :cascade do |t|
     t.string "labyrinth"
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.index ["user_id"], name: "index_labyrinths_on_user_id"
   end
 
