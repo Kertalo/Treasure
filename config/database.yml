@@ -14,3 +14,7 @@ test:
   database: treasure_test
   username: <%= ENV["DB_USERNAME"] %>
   password: <%= ENV["DB_PASSWORD"] %>
+
+production:
+  <<: *default
+  url: <%= ENV["DB_URL"] %>
