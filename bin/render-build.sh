@@ -2,8 +2,8 @@
 # exit on error
 set -o errexit
 
-bundel install
+bundle install
 yarn install
-bundel exec rake assets:precompile
-bundel exec rake assets:clean
-bundel exec rake db:migrate
+bundle exec rake assets:precompile
+bundle exec rake assets:clean
+bundle exec rake db:migrate
