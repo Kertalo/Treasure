@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
   PASSWORD_RESET_TOKEN_EXPIRATION = 10.minutes
 
-  MAILER_FROM_EMAIL = "no-reply@example.com"
+  MAILER_FROM_EMAIL = ENV['EMAIL_USERNAME']
 
   has_secure_password
 
