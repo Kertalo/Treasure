@@ -1,0 +1,10 @@
+<%= render("layouts/navbar") %>
+<div class="page">
+  <div class="form">
+    <style> body{color: #222629}</style>
+    <h2>Your Lobby Token: <%= @token.id %> </h2>
+      <%= button_to 'Play', '/main', method: :get %>
+      &nbsp
+      <%= button_to 'Cancel', '/cancel', method: :get %>
+  </div>
+</div>

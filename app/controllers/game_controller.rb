@@ -1,16 +1,23 @@
 class GameController < ApplicationController
   before_action :authenticate_user!
-  def menu
-
+  def create_lobby
+    current_user.create_game
+    @token = Game.find_by(user_id: Current.user.id)
   end
 
-  def loading
-    current_user.create_ready_player
+  def join_lobby
+    game = Game.find_by(id: params[:token])
+    if game.present?
+      game.update(opponent: Current.user.id)
+      redirect_to main_path
+    else
+      redirect_to '/join', alert: "Invalid token"
+    end
   end
 
   def cancel
-    ready = ReadyPlayer.find_by(id: Current.user.id)
-    ready.destroy! if ready.present?
+    game = Game.find_by(user_id: Current.user.id)
+    game.destroy! if game.present?
     redirect_to root_path
   end
 

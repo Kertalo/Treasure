@@ -1,8 +1,11 @@
 <%= render("layouts/navbar") %>
 <%= stylesheet_link_tag "main_button" %>
 <main>
-    <form class="button_to" method="get" action="/loading">
-        <button class="button" type="submit">Play</button>
+    <form class="button_to" method="get" action="/create_lobby">
+        <button class="button" type="submit">Create Lobby</button>
+    </form>
+    <form class="button_to" method="get" action="/join">
+      <button class="button" type="submit">Join Lobby</button>
     </form>
     <form class="button_to" method="get" action="/edit_labyrinth">
         <button class="button" type="submit">Edit labyrinth</button>

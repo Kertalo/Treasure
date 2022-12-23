@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   root 'static_pages#home'
 
   get '/home', to: 'static_pages#home'
-  get '/loading', to: 'game#loading'
+  get '/create_lobby', to: 'game#create_lobby'
+  post '/join_lobby', to: 'game#join_lobby'
+  get '/join', to: 'game#join_page'
   get '/cancel', to: 'game#cancel'
   get '/main', to: 'game#main'
 

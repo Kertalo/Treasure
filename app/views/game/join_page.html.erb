@@ -1,0 +1,14 @@
+<%= render("layouts/navbar") %>
+<%= stylesheet_link_tag "form" %>
+<div class="page">
+  <div class="form">
+    <h1>Join Lobby</h1>
+    <form method="post" action="/join_lobby">
+      <label for="token">Token</label>
+      <input name="token" id="token" placeholder="Enter Token">
+
+      <input type="submit" name="Join" value="Join">
+    </form>
+    <%= button_to 'Back', '/home', method: :get %>
+  </div>
+</div>
