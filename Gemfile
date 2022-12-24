@@ -73,6 +73,16 @@ end
 
 gem 'dotenv-rails', groups: [:development, :test]
 
+#Google Auth
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
+
+# Active Admin
+gem 'activeadmin'
+
+gem 'devise'
+gem 'cancancan'
+gem 'draper'
+gem 'pundit'
+gem 'sass-rails'
