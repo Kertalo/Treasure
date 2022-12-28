@@ -5,6 +5,14 @@
 
 <div data-controller="edit">
   <canvas id="myCanvas" width=<%= @width %> height=<%= @height %>></canvas>
+
+  <div>
+    <input type="radio" id="walls" name="walls_treasure" value="walls" checked>
+    <label for="walls">Walls</label>
+    <input type="radio" id="treasure" name="walls_treasure" value="treasure">
+    <label for="treasure">Treasure</label>
+  </div>
+
   <%= button_to 'Back', '/home', method: :get %>
   <button id='clear'>Clear</button>
   <button id='reset'>Reset</button>
