@@ -41,4 +41,11 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#omniauth'
 
   get '/set_other_labyrinth', to: 'game#set_other_labyrinth'
+
+  get '/move_up', to: 'game#move_up'
+  get '/move_right', to: 'game#move_right'
+  get '/move_down', to: 'game#move_down'
+  get '/move_left', to: 'game#move_left'
+
+  get '/update_labyrinth', to: 'game#update_labyrinth'
 end

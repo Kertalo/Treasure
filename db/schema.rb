@@ -76,6 +76,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_24_093600) do
     t.string "unconfirmed_email"
     t.string "uid"
     t.string "provider"
+    t.integer "move"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

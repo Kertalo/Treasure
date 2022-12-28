@@ -4,6 +4,7 @@ export default class extends Controller {
   connect() {
     const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
+    let radios = document.querySelectorAll('input[type="radio"]');
 
     let width = canvas.offsetWidth;
     let height = canvas.offsetHeight;
@@ -12,6 +13,9 @@ export default class extends Controller {
 
     let cell = (width - 2 * side + wall) / 8 - wall;
 
+    let color_cell_treasure = "#c8c800";
+    let color_treasure = "#ffff00";
+    let color_cell = "#484848";
     let color_side = "#6e6e6e";
     let color_wall_exist = "#6e6e6e";
     let color_wall_clear = "#282828";
@@ -19,6 +23,17 @@ export default class extends Controller {
     let color_wall_clear_move = "#3c3c3c";
 
     let field = [];
+
+    function draw_treasure(position, color)
+    {
+      ctx.beginPath();
+      ctx.rect(side + wall + (position % 8) * (cell + wall),
+          side + wall + Math.floor(position / 8) * (cell + wall),
+          cell - 2 * wall, cell - 2 * wall);
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.closePath();
+    }
 
     function create_wall(is_horizontal, is_exist, i, color)
     {
@@ -37,6 +52,7 @@ export default class extends Controller {
       ctx.fill();
       ctx.closePath();
     }
+
 
     function update()
     {
@@ -62,6 +78,10 @@ export default class extends Controller {
           create_wall(false, true, i, color_wall_exist);
         else
           create_wall(false, false, i, color_wall_clear);
+
+      for(let i = 0; i < 64; i++)
+        if ((field[i] & 16) === 16)
+          draw_treasure(i, color_treasure);
 
       ctx.beginPath();
 
@@ -94,6 +114,11 @@ export default class extends Controller {
         return;
       }
 
+      let is_walls = true;
+      for (let radio of radios)
+        if (radio.checked && radio.value === "treasure")
+          is_walls = false;
+
       let position = -1;
 
       for (let i = 1; i <= 8; i++)
@@ -109,6 +134,23 @@ export default class extends Controller {
           position += (i - 1) * 8;
           break;
         }
+
+      if (!is_walls)
+      {
+        if (click)
+        {
+          for (let i = 0; i < 64; i++)
+            field[i] = field[i] % 16;
+          field[position] += 16;
+          localStorage.setItem('field', JSON.stringify(field));
+        }
+        update();
+        if ((field[position] & 16) === 16)
+          draw_treasure(position, color_cell_treasure);
+        else
+          draw_treasure(position, color_cell);
+        return;
+      }
 
       let dir = 0;
 
@@ -161,6 +203,7 @@ export default class extends Controller {
         field[i] += 8;
       for(let i = 7; i < 64; i += 8)
         field[i] += 2;
+      field[63] += 16;
 
       localStorage.setItem('field', JSON.stringify(field));
     }

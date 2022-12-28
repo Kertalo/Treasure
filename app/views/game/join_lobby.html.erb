@@ -1,0 +1,15 @@
+<%= render("layouts/navbar") %>
+<%= stylesheet_link_tag "form" %>
+<div class="page">
+  <div class="form">
+    <h1>Login</h1>
+    <%= form_with url: '/join_lobby', scope: :user do |form| %>
+      <div>
+        <%= form.label :token %>
+        <%= form.email_field :token, required: true, placeholder: "Enter Token" %>
+      </div>
+      <%= form.submit "Play" %>
+    <% end %>
+  </div>
+</div>
+<%= button_to 'Back', '/back', method: :get %>
