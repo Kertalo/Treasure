@@ -33,6 +33,8 @@ export default class extends Controller {
     let myPosition = 0;
     let otherPosition = 0;
 
+    let myTurn = false;
+
     function draw_treasure(position, ctx)
     {
       ctx.beginPath();
@@ -112,7 +114,7 @@ export default class extends Controller {
           let field = isMyTurn ? myField : otherField;
           field[position] += 16;
           update();
-          alert('SOMEBODY WIN!');
+          alert('YOU WIN!');
         }
       }
       if (!isClear)
@@ -148,6 +150,39 @@ export default class extends Controller {
       editField = JSON.parse(localStorage.getItem('field'));
 
       update();
+
+      get_turn();
+    }
+
+    function change_turn()
+    {
+      if (!myTurn)
+        get_turn();
+      update();
+    }
+
+    var refreshIntervalId = setInterval(change_turn,1000);
+
+    async function get_turn()
+    {
+      fetch('/get_turn')
+          .then(response => response.json())
+          .then(result => {myTurn = result;});
+    }
+
+    async function set_turn()
+    {
+      let turn = { turn: false };
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+
+      await fetch('/set_turn', {
+        method: 'POST',
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(turn)
+      });
     }
 
     function horizontal_vertical_walls(ctx, field, is_edit)
@@ -220,8 +255,6 @@ export default class extends Controller {
       update_with_ctx(otherCtx, otherField, otherWay, true);
     }
 
-    setInterval(update, 60);
-
     const button_up = document.getElementById("up");
     const button_right = document.getElementById("right");
     const button_down = document.getElementById("down");
@@ -252,38 +285,54 @@ export default class extends Controller {
         move(rotation, false, true);
       else if (results === 1)
         move(rotation, true, true);
-      else if (results === 2)
+      else if (results === 2) {
         move(rotation, true, true, true);
-      else
-        alert("NOT YOUR TURN!");
+        win();
+      }
+      is_win();
+      update();
+      set_turn();
+      myTurn = false;
     }
 
     async function move_up()
     {
-      fetch('/move_up')
+      if (myTurn)
+        fetch('/move_up')
           .then(response => response.json())
           .then(results => before_move(results, 1))
+      else
+        alert("NOT YOUR TURN!")
     }
 
     async function move_right()
     {
-      fetch('/move_right')
+      if (myTurn)
+        fetch('/move_right')
           .then(response => response.json())
           .then(results => before_move(results, 2))
+      else
+        alert("NOT YOUR TURN!")
     }
 
     async function move_down()
     {
-      fetch('/move_down')
+      if (myTurn)
+        fetch('/move_down')
           .then(response => response.json())
           .then(results => before_move(results, 4))
+      else
+        alert("NOT YOUR TURN!")
     }
 
     async function move_left()
     {
-      fetch('/move_left')
+      if (myTurn)
+        fetch('/move_left')
           .then(response => response.json())
           .then(results => before_move(results, 8))
+      else
+        alert("NOT YOUR TURN!")
     }
 
     async function set_other_labyrinth()
@@ -294,5 +343,51 @@ export default class extends Controller {
     }
 
     set_other_labyrinth().then(r => r);
+
+    const button_exit = document.getElementById("exit");
+    button_exit.addEventListener('click', (event) =>
+        exit());
+
+    async function exit()
+    {
+      clearInterval(refreshIntervalId);
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+
+      await fetch('/exit', {
+        method: 'POST',
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(666)
+      });
+
+      window.location.replace('/home');
+    }
+
+    async function win()
+    {
+      clearInterval(refreshIntervalId);
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+
+      await fetch('/win', {
+        method: 'POST',
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(777)
+      });
+
+      alert("Game over!")
+      window.location.replace('/home');
+    }
+
+    async function is_win()
+    {
+      fetch('/get_win')
+          .then(response => response.json())
+          .then(results => { if (results === true) win()});
+    }
   }
 }

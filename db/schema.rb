@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_24_093600) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_29_154447) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,7 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_24_093600) do
   end
 
   create_table "active_sessions", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "user_agent"
@@ -56,14 +56,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_24_093600) do
     t.integer "opponent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "turn"
+    t.boolean "win"
     t.index ["user_id"], name: "index_games_on_user_id"
   end
 
   create_table "labyrinths", force: :cascade do |t|
     t.string "labyrinth"
-    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_labyrinths_on_user_id"
   end
 

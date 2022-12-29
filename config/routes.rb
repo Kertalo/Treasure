@@ -5,9 +5,14 @@ Rails.application.routes.draw do
 
   get '/home', to: 'static_pages#home'
   get '/create_lobby', to: 'game#create_lobby'
+  get '/create_page', to: 'game#create_page'
   post '/join_lobby', to: 'game#join_lobby'
-  get '/join', to: 'game#join_page'
+  get '/join_page', to: 'game#join_page'
+  get '/play', to: 'game#play'
   get '/cancel', to: 'game#cancel'
+  post '/exit', to: 'game#exit'
+  post '/win', to: 'game#win'
+  get '/get_win', to: 'game#get_win'
   get '/main', to: 'game#main'
 
   post "sign_up", to: "users#create"
@@ -48,4 +53,6 @@ Rails.application.routes.draw do
   get '/move_left', to: 'game#move_left'
 
   get '/update_labyrinth', to: 'game#update_labyrinth'
+  get '/get_turn', to: 'game#get_turn'
+  post '/set_turn', to: 'game#set_turn'
 end

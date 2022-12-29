@@ -52,6 +52,11 @@ module Authentication
     Current.user.present?
   end
 
+  def have_labyrinth?
+    labyrinth = Labyrinth.find_by(user_id: Current.user.id)
+    labyrinth.present?
+  end
+
   def store_location
     session[:user_return_to] = request.original_url if request.get? && request.local?
   end
